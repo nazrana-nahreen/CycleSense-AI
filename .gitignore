@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+backend/venv/
+venv/
+
+# Environment Variables & Secrets
+.env
+backend/.env
+*.env.local
+
+# Build outputs
+dist/
+build/
+
+# Python Cache & Tests
+__pycache__/
+backend/**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+backend/.pytest_cache/
+.coverage
+htmlcov/
+
+# Databases
+*.db
+*.sqlite3
+backend/cyclesense.db
+backend/test_cyclesense.db
+
+# Logs & Editor
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
