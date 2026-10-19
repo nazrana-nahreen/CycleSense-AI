@@ -44,7 +44,7 @@ export const MentalHealthPage: React.FC = () => {
   const [showNextStepNotice, setShowNextStepNotice] = useState<boolean>(false);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
+    let timer: ReturnType<typeof setInterval> | null = null;
     if (isBreathingActive) {
       timer = setInterval(() => {
         setSecondsLeft((prev) => {
