@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #D96C91;
+    --color-secondary: #B8A7E8;
+    --color-canvas: #FFF9F7;
+    --color-surface: #FFFFFF;
+    --color-text: #302536;
+    --color-accent: #F8DCCF;
+  }
+
+  body {
+    background-color: #FFF9F7;
+    color: #302536;
+    font-family: 'Inter', 'Hind Siliguri', system-ui, sans-serif;
+  }
+}
+
+/* Custom scrollbar for sleek health-tech aesthetic */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFF9F7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E5D5DD;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D96C91;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Print Styles for Health Reports */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+}
