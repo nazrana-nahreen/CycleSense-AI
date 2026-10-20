@@ -90,22 +90,22 @@ export const AuthRequiredGuard: React.FC<AuthRequiredGuardProps> = ({ attemptedP
       </header>
 
       {/* Main Guard Card */}
-      <main className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="max-w-lg w-full bg-surface rounded-3xl p-6 sm:p-8 border border-rose-100 shadow-xl space-y-6 text-center animate-fadeIn">
+      <main className="flex-1 flex items-center justify-center px-3 sm:px-4 py-6 sm:py-12">
+        <div className="max-w-lg w-full bg-surface rounded-3xl p-5 sm:p-8 border border-rose-100 shadow-xl space-y-4 sm:space-y-6 text-center animate-fadeIn">
           {/* Lock Icon with Pulsing Effect */}
-          <div className="relative mx-auto w-20 h-20 flex items-center justify-center">
+          <div className="relative mx-auto w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
             <div className="absolute inset-0 rounded-full bg-rose-200/50 animate-ping opacity-75" />
-            <div className="relative w-16 h-16 rounded-3xl bg-gradient-to-tr from-rose-500 to-rose-400 text-white flex items-center justify-center shadow-lg shadow-rose-500/25">
-              <Lock className="w-8 h-8 stroke-[2.2]" />
+            <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl bg-gradient-to-tr from-rose-500 to-rose-400 text-white flex items-center justify-center shadow-lg shadow-rose-500/25">
+              <Lock className="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.2]" />
             </div>
           </div>
 
           {/* Badges & Target Context */}
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             <Badge variant="rose" size="md">
               {language === 'bn' ? 'প্রবেশাধিকার সংরক্ষিত · অথেনটিকেশন আবশ্যক' : 'Protected Area · Authentication Required'}
             </Badge>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-plum-900 tracking-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-plum-900 tracking-tight">
               {language === 'bn' 
                 ? 'অনুগ্রহ করে প্রথমে সাইন আপ অথবা লগ ইন করুন' 
                 : 'Sign Up or Log In Required'}
@@ -118,16 +118,16 @@ export const AuthRequiredGuard: React.FC<AuthRequiredGuardProps> = ({ attemptedP
           </div>
 
           {/* Detailed Clinical & Privacy Notice */}
-          <div className="p-4 rounded-2xl bg-canvas border border-rose-100 text-xs sm:text-sm text-plum-700 leading-relaxed text-left space-y-2.5">
-            <div className="flex items-start gap-2.5">
-              <ShieldCheck className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+          <div className="p-3.5 sm:p-4 rounded-2xl bg-canvas border border-rose-100 text-xs sm:text-sm text-plum-700 leading-relaxed text-left space-y-2">
+            <div className="flex items-start gap-2">
+              <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-rose-600 shrink-0 mt-0.5" />
               <p>
                 {language === 'bn'
                   ? 'আপনার প্রজনন স্বাস্থ্য, পিরিয়ড হিস্টোরি এবং মানসিক সুস্থতার তথ্যের সর্বোচ্চ গোপনীয়তা ও সুরক্ষার জন্য সকল সেবা অথেনটিকেটেড অ্যাকাউন্টের আওতাভুক্ত।'
                   : 'For privacy, medical integrity, and clinical safety, all cycle tracking tools, symptom logs, and health libraries are accessible only to authenticated users.'}
               </p>
             </div>
-            <p className="text-plum-600 font-medium pl-7">
+            <p className="text-plum-600 font-medium pl-6">
               {language === 'bn'
                 ? 'লগ ইন বা সাইন আপ না করা পর্যন্ত কোনো অভ্যন্তরীণ ডেটা বা টুলস প্রদর্শিত হবে না।'
                 : 'No inside records, predictions, or health journals will be displayed until you authenticate.'}
@@ -135,12 +135,12 @@ export const AuthRequiredGuard: React.FC<AuthRequiredGuardProps> = ({ attemptedP
           </div>
 
           {/* Action CTAs */}
-          <div className="space-y-3 pt-2">
+          <div className="space-y-2.5 sm:space-y-3 pt-1">
             <Button
               variant="primary"
-              size="lg"
+              size="md"
               onClick={handleSignUp}
-              className="w-full justify-center shadow-md shadow-rose-500/20"
+              className="w-full justify-center shadow-md shadow-rose-500/20 text-xs sm:text-sm"
             >
               <UserPlus className="w-4 h-4 mr-2" />
               <span>{language === 'bn' ? 'নতুন অ্যাকাউন্ট তৈরি করুন (Sign Up)' : 'Create Free Account (Sign Up)'}</span>
@@ -148,9 +148,9 @@ export const AuthRequiredGuard: React.FC<AuthRequiredGuardProps> = ({ attemptedP
 
             <Button
               variant="outline"
-              size="lg"
+              size="md"
               onClick={handleSignIn}
-              className="w-full justify-center"
+              className="w-full justify-center text-xs sm:text-sm"
             >
               <LogIn className="w-4 h-4 mr-2" />
               <span>{language === 'bn' ? 'পূর্ববর্তী অ্যাকাউন্টে লগ ইন করুন (Log In)' : 'Sign In to Your Account (Log In)'}</span>
@@ -158,7 +158,7 @@ export const AuthRequiredGuard: React.FC<AuthRequiredGuardProps> = ({ attemptedP
 
             <button
               onClick={handleGoHome}
-              className="w-full pt-2 text-xs font-semibold text-plum-500 hover:text-plum-800 transition-colors cursor-pointer"
+              className="w-full pt-1.5 text-xs font-semibold text-plum-500 hover:text-plum-800 transition-colors cursor-pointer"
             >
               {language === 'bn' ? '← পাবলিক হোমপেজে ফিরে যান' : '← Return to Public Home'}
             </button>

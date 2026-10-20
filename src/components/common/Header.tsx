@@ -55,10 +55,10 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-20 bg-surface/90 backdrop-blur-md border-b border-rose-100 px-4 md:px-8 py-3.5 flex items-center justify-between gap-4 transition-all">
+    <header className="sticky top-0 z-20 bg-surface/90 backdrop-blur-md border-b border-rose-100 px-3 sm:px-6 md:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-4 transition-all">
       {/* Page Title & Context */}
       <div className="min-w-0 flex-1">
-        <h1 className="text-base sm:text-xl md:text-2xl font-bold text-plum-900 tracking-tight truncate flex items-center gap-2">
+        <h1 className="text-sm xs:text-base sm:text-xl md:text-2xl font-bold text-plum-900 tracking-tight truncate flex items-center gap-1.5 sm:gap-2">
           {title}
         </h1>
         <p className="text-xs text-plum-500 hidden sm:block">
@@ -72,20 +72,20 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
       </div>
 
       {/* Action Controls */}
-      <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 shrink-0">
-        {/* Quick Log Period Button */}
+      <div className="flex items-center gap-1 sm:gap-2 md:gap-3 shrink-0">
+        {/* Quick Log Period Button (Desktop/Tablet) */}
         <button
           onClick={() => setIsAddPeriodModalOpen(true)}
-          className="hidden sm:inline-flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold px-3 py-2 rounded-xl border border-rose-200 transition-all cursor-pointer"
+          className="hidden sm:inline-flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl border border-rose-200 transition-all cursor-pointer"
         >
           <Plus className="w-3.5 h-3.5" />
-          <span>{language === 'bn' ? 'পিরিয়ড যোগ করুন' : 'Log Period'}</span>
+          <span>{language === 'bn' ? 'পিরিয়ড যোগ' : 'Log Period'}</span>
         </button>
 
         {/* Ask AI Assistant Floating Trigger */}
         <button
           onClick={() => setIsChatDrawerOpen(true)}
-          className="inline-flex items-center gap-1.5 bg-gradient-to-r from-rose-500 to-lavender-500 hover:from-rose-600 hover:to-lavender-600 text-white text-xs font-semibold px-3 py-2 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer"
+          className="inline-flex items-center gap-1 bg-gradient-to-r from-rose-500 to-lavender-500 hover:from-rose-600 hover:to-lavender-600 text-white text-xs font-semibold p-1.5 sm:px-3 sm:py-2 rounded-xl shadow-xs hover:shadow-md transition-all cursor-pointer"
           title="Open AI Health Assistant"
         >
           <Sparkles className="w-3.5 h-3.5 animate-pulse" />
@@ -95,23 +95,23 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
         {/* Privacy Shield (Blur Sensitive Info) */}
         <button
           onClick={togglePrivacyMode}
-          className={`p-2 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
+          className={`p-1.5 sm:p-2 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
             user.privacyMode
               ? 'bg-plum-900 text-white border-plum-900 shadow-sm'
               : 'bg-surface hover:bg-peach-50 text-plum-600 border-plum-200/80'
           }`}
           title={user.privacyMode ? 'Privacy shield ON (Click to reveal)' : 'Privacy shield OFF (Click to obscure)'}
         >
-          {user.privacyMode ? <EyeOff className="w-4 h-4 text-rose-300" /> : <Eye className="w-4 h-4" />}
+          {user.privacyMode ? <EyeOff className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-300" /> : <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
         </button>
 
         {/* Language Selector (EN / BN) */}
         <div className="flex items-center bg-rose-50/70 p-0.5 rounded-xl border border-rose-200/60">
           <button
             onClick={() => setLanguage('en')}
-            className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+            className={`px-1.5 sm:px-2 py-0.5 sm:py-1 text-[11px] sm:text-xs font-semibold rounded-lg transition-all cursor-pointer ${
               language === 'en'
-                ? 'bg-white text-rose-700 shadow-sm'
+                ? 'bg-white text-rose-700 shadow-xs'
                 : 'text-plum-600 hover:text-plum-900'
             }`}
           >
@@ -119,9 +119,9 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
           </button>
           <button
             onClick={() => setLanguage('bn')}
-            className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+            className={`px-1.5 sm:px-2 py-0.5 sm:py-1 text-[11px] sm:text-xs font-semibold rounded-lg transition-all cursor-pointer ${
               language === 'bn'
-                ? 'bg-white text-rose-700 shadow-sm font-bengali'
+                ? 'bg-white text-rose-700 shadow-xs font-bengali'
                 : 'text-plum-600 hover:text-plum-900 font-bengali'
             }`}
           >
@@ -133,19 +133,19 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
         <div className="relative" ref={notifRef}>
           <button
             onClick={() => setShowNotifMenu(!showNotifMenu)}
-            className="p-2 rounded-xl bg-surface hover:bg-rose-50 text-plum-600 border border-plum-200/80 transition-all relative cursor-pointer"
+            className="p-1.5 sm:p-2 rounded-xl bg-surface hover:bg-rose-50 text-plum-600 border border-plum-200/80 transition-all relative cursor-pointer"
             aria-label="Notifications"
           >
-            <Bell className="w-4 h-4" />
+            <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-bounce">
+              <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-bold w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center animate-bounce">
                 {unreadCount}
               </span>
             )}
           </button>
 
           {showNotifMenu && (
-            <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 max-w-sm bg-surface rounded-2xl shadow-xl border border-rose-100 p-4 z-50 animate-fadeIn">
+            <div className="fixed sm:absolute left-2 right-2 sm:left-auto sm:right-0 top-14 sm:top-full mt-2 sm:w-96 max-w-sm mx-auto sm:mx-0 bg-surface rounded-2xl shadow-xl border border-rose-100 p-4 z-50 animate-fadeIn">
               <div className="flex items-center justify-between pb-3 border-b border-rose-100">
                 <div className="flex items-center gap-2">
                   <h4 className="font-bold text-sm text-plum-900">
@@ -202,7 +202,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
         <div className="relative" ref={profileRef}>
           <button
             onClick={() => setShowProfileMenu(!showProfileMenu)}
-            className="flex items-center gap-2 p-1 pl-2 pr-2.5 rounded-xl hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-all cursor-pointer"
+            className="flex items-center gap-1.5 sm:gap-2 p-1 sm:pl-2 sm:pr-2.5 rounded-xl hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-all cursor-pointer"
           >
             <img
               src={user.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256'}
@@ -215,7 +215,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
           </button>
 
           {showProfileMenu && (
-            <div className="absolute right-0 mt-2 w-56 bg-surface rounded-2xl shadow-xl border border-rose-100 p-2 z-50 animate-fadeIn">
+            <div className="absolute right-0 mt-2 w-48 sm:w-56 bg-surface rounded-2xl shadow-xl border border-rose-100 p-2 z-50 animate-fadeIn">
               <div className="px-3 py-2 border-b border-rose-100">
                 <p className="font-bold text-sm text-plum-900 truncate">{user.name}</p>
                 <p className="text-xs text-plum-500 truncate">{user.email}</p>

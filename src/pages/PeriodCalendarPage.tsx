@@ -487,59 +487,109 @@ export const PeriodCalendarPage: React.FC = () => {
             </Button>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="border-b border-rose-100 bg-canvas text-plum-800">
-                  <th className="py-2.5 px-3 font-bold">Start Date</th>
-                  <th className="py-2.5 px-3 font-bold">End Date</th>
-                  <th className="py-2.5 px-3 font-bold">Bleeding Duration</th>
-                  <th className="py-2.5 px-3 font-bold">Cycle Length</th>
-                  <th className="py-2.5 px-3 font-bold">Flow Intensity</th>
-                  <th className="py-2.5 px-3 font-bold">Notes</th>
-                  <th className="py-2.5 px-3 font-bold text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-rose-50 text-plum-700">
-                {cycles.map(c => (
-                  <tr key={c.id} className="hover:bg-peach-50/40 transition-colors">
-                    <td className="py-2.5 px-3 font-semibold text-plum-900">{c.startDate}</td>
-                    <td className="py-2.5 px-3">{c.endDate}</td>
-                    <td className="py-2.5 px-3">{c.periodDuration} days</td>
-                    <td className="py-2.5 px-3 font-semibold">
-                      {c.cycleLength ? `${c.cycleLength} days` : '—'}
-                    </td>
-                    <td className="py-2.5 px-3 capitalize">
-                      <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">
-                        {t.flows[c.flowIntensity]}
-                      </span>
-                    </td>
-                    <td className="py-2.5 px-3 italic text-plum-500 max-w-[180px] truncate">
-                      {c.notes || '—'}
-                    </td>
-                    <td className="py-2.5 px-3 text-right">
-                      <div className="inline-flex items-center gap-1">
-                        <button
-                          onClick={() => handleEditCycle(c.id)}
-                          className="p-1.5 text-plum-500 hover:text-rose-600 rounded-lg hover:bg-rose-50 cursor-pointer"
-                          title="Edit cycle"
-                        >
-                          <Edit3 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteCycle(c.id)}
-                          className="p-1.5 text-plum-500 hover:text-rose-600 rounded-lg hover:bg-rose-50 cursor-pointer"
-                          title="Delete cycle"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-rose-100 bg-canvas text-plum-800">
+                    <th className="py-2.5 px-3 font-bold">Start Date</th>
+                    <th className="py-2.5 px-3 font-bold">End Date</th>
+                    <th className="py-2.5 px-3 font-bold">Bleeding Duration</th>
+                    <th className="py-2.5 px-3 font-bold">Cycle Length</th>
+                    <th className="py-2.5 px-3 font-bold">Flow Intensity</th>
+                    <th className="py-2.5 px-3 font-bold">Notes</th>
+                    <th className="py-2.5 px-3 font-bold text-right">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-rose-50 text-plum-700">
+                  {cycles.map(c => (
+                    <tr key={c.id} className="hover:bg-peach-50/40 transition-colors">
+                      <td className="py-2.5 px-3 font-semibold text-plum-900">{c.startDate}</td>
+                      <td className="py-2.5 px-3">{c.endDate}</td>
+                      <td className="py-2.5 px-3">{c.periodDuration} days</td>
+                      <td className="py-2.5 px-3 font-semibold">
+                        {c.cycleLength ? `${c.cycleLength} days` : '—'}
+                      </td>
+                      <td className="py-2.5 px-3 capitalize">
+                        <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                          {t.flows[c.flowIntensity]}
+                        </span>
+                      </td>
+                      <td className="py-2.5 px-3 italic text-plum-500 max-w-[180px] truncate">
+                        {c.notes || '—'}
+                      </td>
+                      <td className="py-2.5 px-3 text-right">
+                        <div className="inline-flex items-center gap-1">
+                          <button
+                            onClick={() => handleEditCycle(c.id)}
+                            className="p-1.5 text-plum-500 hover:text-rose-600 rounded-lg hover:bg-rose-50 cursor-pointer"
+                            title="Edit cycle"
+                          >
+                            <Edit3 className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteCycle(c.id)}
+                            className="p-1.5 text-plum-500 hover:text-rose-600 rounded-lg hover:bg-rose-50 cursor-pointer"
+                            title="Delete cycle"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Responsive Cards */}
+            <div className="md:hidden space-y-3">
+              {cycles.map(c => (
+                <div key={c.id} className="p-4 bg-canvas rounded-2xl border border-rose-100 space-y-2 text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-extrabold text-sm text-plum-900">
+                      {c.startDate} <span className="text-plum-400 font-normal">→</span> {c.endDate}
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                      {t.flows[c.flowIntensity]}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-plum-600 pt-1 border-t border-rose-50">
+                    <div>
+                      <span className="text-plum-400 block text-[10px]">Bleeding Duration:</span>
+                      <span className="font-bold text-plum-800">{c.periodDuration} days</span>
+                    </div>
+                    <div>
+                      <span className="text-plum-400 block text-[10px]">Cycle Length:</span>
+                      <span className="font-bold text-plum-800">{c.cycleLength ? `${c.cycleLength} days` : '—'}</span>
+                    </div>
+                  </div>
+                  {c.notes && (
+                    <p className="text-[11px] text-plum-500 italic bg-white/70 p-2 rounded-xl border border-rose-50">
+                      "{c.notes}"
+                    </p>
+                  )}
+                  <div className="flex items-center justify-end gap-2 pt-2 border-t border-rose-50">
+                    <button
+                      onClick={() => handleEditCycle(c.id)}
+                      className="px-3 py-1.5 bg-white text-rose-700 border border-rose-200 rounded-xl font-semibold flex items-center gap-1.5 text-xs shadow-xs"
+                    >
+                      <Edit3 className="w-3.5 h-3.5" />
+                      <span>{language === 'bn' ? 'এডিট' : 'Edit'}</span>
+                    </button>
+                    <button
+                      onClick={() => handleDeleteCycle(c.id)}
+                      className="px-3 py-1.5 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-xl font-semibold flex items-center gap-1.5 text-xs"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>{language === 'bn' ? 'মুছুন' : 'Delete'}</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </Card>
     </div>

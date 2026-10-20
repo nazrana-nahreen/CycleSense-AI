@@ -188,7 +188,8 @@ export const HealthReportsPage: React.FC = () => {
             2. Recorded Cycle Episodes
           </h4>
 
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="border-b-2 border-rose-100 bg-canvas text-plum-800">
@@ -222,6 +223,31 @@ export const HealthReportsPage: React.FC = () => {
               </tbody>
             </table>
           </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-2.5">
+            {cycles.length === 0 ? (
+              <p className="py-4 text-center text-xs text-plum-400">
+                {language === 'bn' ? 'কোনো পিরিয়ডের তথ্য রেকর্ড করা নেই।' : 'No period episodes logged yet.'}
+              </p>
+            ) : (
+              cycles.map((c) => (
+                <div key={c.id} className="p-3 bg-canvas rounded-xl border border-rose-100 text-xs space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-plum-900">{c.startDate} → {c.endDate}</span>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-50 text-rose-700 border border-rose-200 capitalize">
+                      {c.flowIntensity}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-plum-600 text-[11px]">
+                    <span>Duration: <strong>{c.periodDuration}d</strong></span>
+                    <span>Cycle Length: <strong>{c.cycleLength ? `${c.cycleLength}d` : 'N/A'}</strong></span>
+                  </div>
+                  {c.notes && <p className="text-[10px] italic text-plum-500">"{c.notes}"</p>}
+                </div>
+              ))
+            )}
+          </div>
         </div>
 
         {/* Section 3: Recent Symptom Diary Extract */}
@@ -230,7 +256,8 @@ export const HealthReportsPage: React.FC = () => {
             3. Patient-Recorded Daily Symptoms & Pain Severity
           </h4>
 
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="border-b-2 border-rose-100 bg-canvas text-plum-800">
@@ -265,6 +292,33 @@ export const HealthReportsPage: React.FC = () => {
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-2.5">
+            {symptoms.length === 0 ? (
+              <p className="py-4 text-center text-xs text-plum-400">
+                {language === 'bn' ? 'কোনো লক্ষণ রেকর্ড করা নেই।' : 'No daily symptoms logged.'}
+              </p>
+            ) : (
+              symptoms.slice(0, 8).map(s => (
+                <div key={s.id} className="p-3 bg-canvas rounded-xl border border-rose-100 text-xs space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-plum-900">{s.date}</span>
+                    <span className="font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">
+                      Pain: {s.crampsPain}/10
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-1 text-[11px] text-plum-600">
+                    <span>Flow: <strong className="capitalize">{s.flow}</strong></span>
+                    <span>Mood: <strong className="capitalize">{s.mood}</strong></span>
+                    <span>Fatigue: <strong className="capitalize">{s.fatigue}</strong></span>
+                    <span>Headache: <strong className="capitalize">{s.headache}</strong></span>
+                  </div>
+                  {s.notes && <p className="text-[10px] italic text-plum-500">"{s.notes}"</p>}
+                </div>
+              ))
+            )}
           </div>
         </div>
 

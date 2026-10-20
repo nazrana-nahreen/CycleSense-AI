@@ -177,10 +177,10 @@ export const MentalHealthPage: React.FC = () => {
       </div>
 
       {/* Module Navigation Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none border-b border-rose-100">
+      <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 no-scrollbar border-b border-rose-100">
         <button
           onClick={() => setActiveTab('dailyMood')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all cursor-pointer ${
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all cursor-pointer ${
             activeTab === 'dailyMood'
               ? 'bg-rose-500 text-white shadow-sm shadow-rose-500/20'
               : 'bg-surface hover:bg-peach-50 text-plum-700 border border-rose-100/60'
@@ -192,7 +192,7 @@ export const MentalHealthPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('breathing')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all cursor-pointer ${
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all cursor-pointer ${
             activeTab === 'breathing'
               ? 'bg-rose-500 text-white shadow-sm shadow-rose-500/20'
               : 'bg-surface hover:bg-peach-50 text-plum-700 border border-rose-100/60'
@@ -204,7 +204,7 @@ export const MentalHealthPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('connection')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all cursor-pointer ${
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all cursor-pointer ${
             activeTab === 'connection'
               ? 'bg-rose-500 text-white shadow-sm shadow-rose-500/20'
               : 'bg-surface hover:bg-peach-50 text-plum-700 border border-rose-100/60'
@@ -216,7 +216,7 @@ export const MentalHealthPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('support')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all cursor-pointer ${
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all cursor-pointer ${
             activeTab === 'support'
               ? 'bg-rose-500 text-white shadow-sm shadow-rose-500/20'
               : 'bg-surface hover:bg-peach-50 text-plum-700 border border-rose-100/60'
@@ -487,7 +487,7 @@ export const MentalHealthPage: React.FC = () => {
                 </div>
 
                 {/* Animated Breathing Circle */}
-                <div className="relative w-44 h-44 sm:w-56 sm:h-56 flex items-center justify-center">
+                <div className="relative w-40 h-40 xs:w-48 xs:h-48 sm:w-56 sm:h-56 flex items-center justify-center">
                   <div
                     className={`absolute inset-0 rounded-full bg-gradient-to-br from-rose-200 via-lavender-200 to-peach-200 opacity-60 transition-all duration-1000 ${
                       isBreathingActive && breathingPhase === 'inhale' ? 'scale-110' : ''
@@ -495,11 +495,11 @@ export const MentalHealthPage: React.FC = () => {
                       isBreathingActive && breathingPhase === 'exhale' ? 'scale-90' : ''
                     } ${isBreathingActive ? 'animate-pulse' : ''}`}
                   />
-                  <div className="relative z-10 w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-surface border-4 border-rose-300 shadow-xl flex flex-col items-center justify-center p-3 sm:p-4">
-                    <span className="text-3xl sm:text-4xl font-extrabold text-plum-900">
+                  <div className="relative z-10 w-32 h-32 xs:w-38 xs:h-38 sm:w-44 sm:h-44 rounded-full bg-surface border-4 border-rose-300 shadow-xl flex flex-col items-center justify-center p-2.5 sm:p-4">
+                    <span className="text-2xl xs:text-3xl sm:text-4xl font-extrabold text-plum-900">
                       {secondsLeft}s
                     </span>
-                    <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-rose-600 mt-1">
+                    <span className="text-[10px] xs:text-[11px] sm:text-xs font-bold uppercase tracking-wider text-rose-600 mt-1">
                       {breathingPhase === 'inhale' && (language === 'bn' ? 'শ্বাস নিন' : 'Inhale')}
                       {breathingPhase === 'hold1' && (language === 'bn' ? 'ধরে রাখুন' : 'Hold')}
                       {breathingPhase === 'exhale' && (language === 'bn' ? 'শ্বাস ছাড়ুন' : 'Exhale')}
@@ -574,7 +574,7 @@ export const MentalHealthPage: React.FC = () => {
                 ? 'তীব্র মানসিক অস্থিরতা বা প্যানিক অনুভূত হলে আপনার পঞ্চইন্দ্রিয়কে কাজে লাগিয়ে মনকে বর্তমান মুহূর্তে ফিরিয়ে আনুন:'
                 : 'When acute anxiety, racing thoughts, or sensory overwhelm occur, use your five senses to ground your body in the present:'}
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs sm:text-sm">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-5 gap-2.5 sm:gap-3 text-xs sm:text-sm">
               <div className="p-3 bg-peach-50/60 rounded-2xl border border-rose-100 space-y-1">
                 <span className="font-bold text-rose-700 block">5 {language === 'bn' ? 'টি জিনিস দেখুন' : 'Things to See'}</span>
                 <p className="text-plum-600 text-xs">{language === 'bn' ? 'আপনার চারপাশে থাকা ৫টি বস্তু খেয়াল করুন।' : 'Notice shapes, colors, or subtle patterns around you.'}</p>

@@ -83,7 +83,7 @@ export const BottomNav: React.FC = () => {
       )}
 
       {/* Persistent Bottom Bar */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-surface/95 backdrop-blur-md border-t border-rose-100 px-1 py-1 flex items-center justify-between shadow-lg">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-surface/95 backdrop-blur-md border-t border-rose-100 px-1.5 pt-1.5 pb-2.5 sm:pb-2 flex items-center justify-between shadow-lg">
         {mainTabs.map(tab => {
           const Icon = tab.icon;
           const isActive = currentPage === tab.id;

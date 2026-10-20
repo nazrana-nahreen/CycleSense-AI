@@ -87,12 +87,12 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* Hero Welcome Card */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface rounded-3xl p-6 border border-rose-100 shadow-soft">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface rounded-3xl p-4 sm:p-6 border border-rose-100 shadow-soft">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-rose-500">
+          <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-rose-500">
             {language === 'bn' ? 'ব্যক্তিগত ড্যাশবোর্ড' : 'Personal Health Overview'}
           </span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-plum-900 tracking-tight mt-0.5">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-plum-900 tracking-tight mt-0.5">
             {t.dashboard.welcome}, {user.name.split(' ')[0]} 👋
           </h2>
           <p className="text-xs sm:text-sm text-plum-500 mt-1">
@@ -106,7 +106,8 @@ export const DashboardPage: React.FC = () => {
         <div className="flex flex-wrap items-center gap-2">
           <Button
             variant="primary"
-            size="md"
+            size="sm"
+            className="sm:!py-2.5 sm:!px-4 sm:!text-sm"
             icon={<Plus className="w-4 h-4" />}
             onClick={() => setIsAddPeriodModalOpen(true)}
           >
@@ -114,7 +115,8 @@ export const DashboardPage: React.FC = () => {
           </Button>
           <Button
             variant="outline"
-            size="md"
+            size="sm"
+            className="sm:!py-2.5 sm:!px-4 sm:!text-sm"
             icon={<Activity className="w-4 h-4 text-rose-500" />}
             onClick={() => setCurrentPage('symptoms')}
           >
@@ -122,7 +124,8 @@ export const DashboardPage: React.FC = () => {
           </Button>
           <Button
             variant="soft"
-            size="md"
+            size="sm"
+            className="sm:!py-2.5 sm:!px-4 sm:!text-sm"
             icon={<Bot className="w-4 h-4 text-lavender-700" />}
             onClick={() => setIsChatDrawerOpen(true)}
           >
@@ -134,7 +137,7 @@ export const DashboardPage: React.FC = () => {
       {/* Main Cycle Dial & Key Metrics Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Cycle Wheel Centerpiece (7 cols on lg) */}
-        <div className="lg:col-span-7 bg-surface rounded-3xl p-6 border border-rose-100 shadow-soft flex flex-col items-center justify-center">
+        <div className="lg:col-span-7 bg-surface rounded-3xl p-4 sm:p-6 border border-rose-100 shadow-soft flex flex-col items-center justify-center">
           <div className="w-full flex items-center justify-between border-b border-rose-50 pb-3 mb-2">
             <div>
               <h3 className="font-bold text-base text-plum-900">

@@ -52,9 +52,9 @@ export const CycleWheel: React.FC = () => {
   const daysTillNext = Math.max(0, totalDays - currentDay + 1);
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center p-2 sm:p-4 w-full">
       {/* Interactive Dial SVG */}
-      <div className="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center">
+      <div className="relative w-56 h-56 xs:w-64 xs:h-64 sm:w-72 sm:h-72 flex items-center justify-center">
         <svg
           width={size}
           height={size}
@@ -114,32 +114,32 @@ export const CycleWheel: React.FC = () => {
         </svg>
 
         {/* Center Information Card */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 select-none pointer-events-none">
-          <span className="text-xs uppercase tracking-wider font-semibold text-plum-500">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 sm:p-6 select-none pointer-events-none">
+          <span className="text-[10px] xs:text-xs uppercase tracking-wider font-semibold text-plum-500">
             {t.dashboard.cycleDay}
           </span>
 
           <div className="flex items-baseline justify-center gap-1 my-0.5">
-            <span className={`text-4xl sm:text-5xl font-extrabold tracking-tight text-plum-900 ${user.privacyMode ? 'blur-sm' : ''}`}>
+            <span className={`text-3xl xs:text-4xl sm:text-5xl font-extrabold tracking-tight text-plum-900 ${user.privacyMode ? 'blur-sm' : ''}`}>
               {currentDay}
             </span>
-            <span className="text-xs sm:text-sm text-plum-400 font-medium">
+            <span className="text-[11px] xs:text-xs sm:text-sm text-plum-400 font-medium">
               / ~{totalDays} {language === 'bn' ? 'দিন' : 'days'}
             </span>
           </div>
 
-          <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border mt-1 ${phaseInfo.bg}`}>
+          <span className={`text-[10px] xs:text-xs font-semibold px-2 xs:px-2.5 py-0.5 rounded-full border mt-0.5 xs:mt-1 ${phaseInfo.bg}`}>
             {phaseInfo.title}
           </span>
 
-          <div className="mt-2 text-[11px] text-plum-500 flex items-center justify-center gap-1 font-medium">
-            <Calendar className="w-3 h-3 text-rose-500" />
+          <div className="mt-1 xs:mt-2 text-[10px] xs:text-[11px] text-plum-500 flex items-center justify-center gap-1 font-medium">
+            <Calendar className="w-2.5 h-2.5 xs:w-3 xs:h-3 text-rose-500" />
             <span>
               {language === 'bn'
-                ? `পরবর্তী মাসিক: ~${daysTillNext} দিন পর`
+                ? `পরবর্তী: ~${daysTillNext} দিন`
                 : `Next: in ~${daysTillNext} days`}
             </span>
-            <span className="text-[10px] text-plum-400 font-normal">
+            <span className="text-[9px] xs:text-[10px] text-plum-400 font-normal">
               ({t.dashboard.uncertainty})
             </span>
           </div>
@@ -147,7 +147,7 @@ export const CycleWheel: React.FC = () => {
       </div>
 
       {/* Explanatory Phase Card */}
-      <div className="mt-4 p-3.5 bg-canvas rounded-2xl border border-rose-100/70 max-w-md w-full text-center">
+      <div className="mt-3 sm:mt-4 p-3 sm:p-3.5 bg-canvas rounded-2xl border border-rose-100/70 max-w-md w-full text-center">
         <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-plum-800 mb-1">
           <Info className="w-3.5 h-3.5 text-rose-500" />
           <span>{t.dashboard.currentPhase}</span>

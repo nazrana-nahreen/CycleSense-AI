@@ -82,18 +82,18 @@ export const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-canvas text-plum-900 flex flex-col font-sans selection:bg-rose-100 selection:text-rose-800">
       {/* Navigation Header with Pink Background */}
-      <header className="sticky top-0 z-30 bg-gradient-to-r from-rose-500 via-rose-600 to-rose-500 text-white shadow-md shadow-rose-900/10 px-4 lg:px-12 py-3.5 transition-all">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <header className="sticky top-0 z-30 bg-gradient-to-r from-rose-500 via-rose-600 to-rose-500 text-white shadow-md shadow-rose-900/10 px-3 sm:px-6 lg:px-12 py-2.5 sm:py-3.5 transition-all">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
           {/* Logo */}
           <div 
             onClick={() => setCurrentPage('landing')}
-            className="flex items-center gap-2.5 cursor-pointer group"
+            className="flex items-center gap-2 cursor-pointer group shrink-0"
           >
-            <div className="w-9 h-9 rounded-2xl bg-white/20 backdrop-blur-xs border border-white/30 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
-              <Heart className="w-5 h-5 fill-white stroke-[2.2]" />
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-2xl bg-white/20 backdrop-blur-xs border border-white/30 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
+              <Heart className="w-4 h-4 sm:w-5 sm:h-5 fill-white stroke-[2.2]" />
             </div>
             <div>
-              <span className="font-extrabold text-xl text-white tracking-tight">
+              <span className="font-extrabold text-lg sm:text-xl text-white tracking-tight">
                 CycleSense<span className="text-peach-200">.ai</span>
               </span>
             </div>
@@ -119,12 +119,12 @@ export const LandingPage: React.FC = () => {
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {/* Language Switcher */}
             <div className="flex items-center bg-black/15 backdrop-blur-xs p-0.5 rounded-xl border border-white/25 text-white">
               <button
                 onClick={() => setLanguage('en')}
-                className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+                className={`px-1.5 sm:px-2 py-0.5 sm:py-1 text-[11px] sm:text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                   language === 'en' ? 'bg-white text-rose-600 shadow-sm' : 'text-white/80 hover:text-white'
                 }`}
               >
@@ -132,7 +132,7 @@ export const LandingPage: React.FC = () => {
               </button>
               <button
                 onClick={() => setLanguage('bn')}
-                className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer font-bengali ${
+                className={`px-1.5 sm:px-2 py-0.5 sm:py-1 text-[11px] sm:text-xs font-semibold rounded-lg transition-all cursor-pointer font-bengali ${
                   language === 'bn' ? 'bg-white text-rose-600 shadow-sm' : 'text-white/80 hover:text-white'
                 }`}
               >
@@ -149,7 +149,7 @@ export const LandingPage: React.FC = () => {
 
             <button
               onClick={handleSignUp}
-              className="bg-white text-rose-600 hover:bg-rose-50 text-xs md:text-sm font-bold px-3.5 sm:px-4 py-2 rounded-xl shadow-md transition-all cursor-pointer hover:shadow-lg active:scale-95"
+              className="bg-white text-rose-600 hover:bg-rose-50 text-xs md:text-sm font-bold px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow-md transition-all cursor-pointer hover:shadow-lg active:scale-95"
             >
               {t.nav.signUp}
             </button>
@@ -157,7 +157,7 @@ export const LandingPage: React.FC = () => {
             {/* Mobile Menu Hamburger */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl bg-white/15 hover:bg-white/25 text-white transition-colors cursor-pointer"
+              className="md:hidden p-1.5 sm:p-2 rounded-xl bg-white/15 hover:bg-white/25 text-white transition-colors cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -911,19 +911,19 @@ export const LandingPage: React.FC = () => {
 
       {/* Interactive Authentication Prompt Modal */}
       {authModal.isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-plum-950/60 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-surface max-w-md w-full rounded-3xl p-6 sm:p-8 shadow-2xl border border-rose-200 text-center space-y-5 animate-scaleUp">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-plum-950/60 backdrop-blur-sm animate-fadeIn overflow-y-auto">
+          <div className="bg-surface max-w-md w-full rounded-3xl p-5 sm:p-8 shadow-2xl border border-rose-200 text-center space-y-4 sm:space-y-5 animate-scaleUp my-auto max-h-[92vh] overflow-y-auto">
             {/* Lock Icon */}
-            <div className="mx-auto w-16 h-16 rounded-3xl bg-gradient-to-tr from-rose-500 to-rose-400 text-white flex items-center justify-center shadow-lg shadow-rose-500/25">
-              <Lock className="w-8 h-8 stroke-[2.2]" />
+            <div className="mx-auto w-12 h-12 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl bg-gradient-to-tr from-rose-500 to-rose-400 text-white flex items-center justify-center shadow-lg shadow-rose-500/25">
+              <Lock className="w-6 h-6 sm:w-8 sm:h-8 stroke-[2.2]" />
             </div>
 
             {/* Title & Context */}
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               <Badge variant="rose" size="sm">
                 {language === 'bn' ? 'প্রবেশাধিকার সংরক্ষিত' : 'Authentication Required'}
               </Badge>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-plum-900 tracking-tight">
+              <h3 className="text-lg sm:text-2xl font-extrabold text-plum-900 tracking-tight">
                 {language === 'bn' ? 'সাইন ইন বা রেজিস্ট্রেশন আবশ্যক' : 'Sign Up or Log In Required'}
               </h3>
               <p className="text-xs font-semibold text-rose-600 bg-rose-50 py-1 px-3 rounded-full inline-block border border-rose-100 mt-1">
@@ -932,16 +932,16 @@ export const LandingPage: React.FC = () => {
             </div>
 
             {/* Crucial Explanatory Notice */}
-            <div className="p-4 rounded-2xl bg-canvas border border-rose-100 text-xs sm:text-sm text-plum-800 leading-relaxed text-left space-y-2">
-              <div className="flex items-start gap-2.5">
-                <ShieldCheck className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-canvas border border-rose-100 text-xs sm:text-sm text-plum-800 leading-relaxed text-left space-y-2">
+              <div className="flex items-start gap-2">
+                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-rose-600 shrink-0 mt-0.5" />
                 <p className="font-semibold text-plum-900">
                   {language === 'bn'
                     ? 'আপনাকে প্রথমে সাইন আপ অথবা লগ ইন করতে হবে, অন্যথায় কোনো অভ্যন্তরীণ তথ্য বা ডেটা দেখানো হবে না।'
                     : 'You need to sign up first or log in first, otherwise no inside data will be shown.'}
                 </p>
               </div>
-              <p className="text-plum-600 pl-7 text-[11px] leading-normal">
+              <p className="text-plum-600 pl-6 text-[11px] leading-normal">
                 {language === 'bn'
                   ? 'আপনার স্বাস্থ্য তথ্য ও প্রজনন স্বাস্থ্যের ডেটা সম্পূর্ণ সুরক্ষিত রাখতে সকল অভ্যন্তরীণ সেবা কেবল নিবন্ধিত ব্যবহারকারীদের জন্য উন্মুক্ত।'
                   : 'For medical integrity and personal data privacy, all cycle tracking tools, symptom diaries, and educational libraries remain strictly locked.'}
@@ -949,7 +949,7 @@ export const LandingPage: React.FC = () => {
             </div>
 
             {/* CTAs */}
-            <div className="space-y-2.5 pt-1">
+            <div className="space-y-2 pt-1">
               <Button
                 variant="primary"
                 size="md"
@@ -963,7 +963,7 @@ export const LandingPage: React.FC = () => {
                   setAuthModal({ ...authModal, isOpen: false });
                   setCurrentPage('auth_signin');
                 }}
-                className="w-full justify-center shadow-md shadow-rose-500/20"
+                className="w-full justify-center shadow-md shadow-rose-500/20 text-xs sm:text-sm"
               >
                 <LogIn className="w-4 h-4 mr-2" />
                 <span>{language === 'bn' ? 'আপনার অ্যাকাউন্টে লগ ইন করুন (Log In)' : 'Sign In to Your Account (Log In)'}</span>
@@ -982,7 +982,7 @@ export const LandingPage: React.FC = () => {
                   setAuthModal({ ...authModal, isOpen: false });
                   setCurrentPage('auth_signup');
                 }}
-                className="w-full justify-center"
+                className="w-full justify-center text-xs sm:text-sm"
               >
                 <UserPlus className="w-4 h-4 mr-2" />
                 <span>{language === 'bn' ? 'নতুন অ্যাকাউন্ট তৈরি করুন (Sign Up)' : 'Create Free Account (Sign Up)'}</span>
@@ -990,7 +990,7 @@ export const LandingPage: React.FC = () => {
 
               <button
                 onClick={() => setAuthModal({ ...authModal, isOpen: false })}
-                className="pt-2 text-xs font-semibold text-plum-500 hover:text-plum-800 transition-colors cursor-pointer"
+                className="pt-1.5 text-xs font-semibold text-plum-500 hover:text-plum-800 transition-colors cursor-pointer"
               >
                 {language === 'bn' ? '✕ বাতিল করুন / হোমপেজে থাকুন' : '✕ Stay on Landing Page'}
               </button>

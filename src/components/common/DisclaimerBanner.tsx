@@ -22,18 +22,18 @@ export const DisclaimerBanner: React.FC = () => {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-rose-50/90 via-peach-50/70 to-lavender-50/90 border-b border-rose-200/50 px-4 py-2 text-xs md:text-sm text-plum-800 flex items-center justify-between gap-3 transition-all relative z-10">
-        <div className="flex items-center gap-2 max-w-5xl mx-auto overflow-hidden">
-          <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
-          <p className="truncate sm:overflow-visible">
+      <div className="bg-gradient-to-r from-rose-50/90 via-peach-50/70 to-lavender-50/90 border-b border-rose-200/50 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs md:text-sm text-plum-800 flex items-center justify-between gap-2 sm:gap-3 transition-all relative z-10">
+        <div className="flex items-center gap-1.5 sm:gap-2 max-w-5xl mx-auto min-w-0 flex-1 overflow-hidden">
+          <AlertCircle className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+          <p className="truncate">
             <span className="font-semibold text-rose-800">{language === 'bn' ? 'সতর্কতা:' : 'Notice:'}</span>{' '}
             {t.disclaimer}
           </p>
           <button
             onClick={() => setShowUrgentModal(true)}
-            className="inline-flex items-center gap-0.5 text-xs font-semibold text-rose-600 hover:text-rose-800 underline ml-1 cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center gap-0.5 text-[11px] sm:text-xs font-semibold text-rose-600 hover:text-rose-800 underline ml-1 cursor-pointer whitespace-nowrap shrink-0"
           >
-            <span>{language === 'bn' ? 'জরুরি বিপদচিহ্ন দেখুন' : 'When is it urgent?'}</span>
+            <span>{language === 'bn' ? 'বিপদচিহ্ন' : 'Urgent help'}</span>
             <ChevronRight className="w-3 h-3" />
           </button>
         </div>

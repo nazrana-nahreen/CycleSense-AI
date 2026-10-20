@@ -61,18 +61,18 @@ export const AiAssistantPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4 max-w-4xl mx-auto pb-12 animate-fadeIn flex flex-col h-[calc(100vh-140px)]">
+    <div className="space-y-3 sm:space-y-4 max-w-4xl mx-auto pb-4 animate-fadeIn flex flex-col h-[calc(100vh-210px)] sm:h-[calc(100vh-150px)] min-h-[460px]">
       {/* Title Bar */}
-      <div className="flex items-center justify-between pb-2">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-2xl bg-gradient-to-br from-rose-500 to-lavender-500 text-white shadow-sm">
-            <Bot className="w-6 h-6" />
+      <div className="flex items-center justify-between pb-1 sm:pb-2">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="p-2 sm:p-2.5 rounded-2xl bg-gradient-to-br from-rose-500 to-lavender-500 text-white shadow-sm">
+            <Bot className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-plum-900 tracking-tight">
+            <h2 className="text-lg sm:text-2xl font-bold text-plum-900 tracking-tight">
               {t.aiChat.title}
             </h2>
-            <p className="text-xs text-plum-500">
+            <p className="text-[11px] sm:text-xs text-plum-500">
               {t.aiChat.subtitle}
             </p>
           </div>
@@ -80,10 +80,10 @@ export const AiAssistantPage: React.FC = () => {
 
         <button
           onClick={clearChatMessages}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-plum-500 hover:text-rose-600 bg-surface px-3 py-1.5 rounded-xl border border-rose-100 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-plum-500 hover:text-rose-600 bg-surface px-2.5 sm:px-3 py-1.5 rounded-xl border border-rose-100 transition-colors cursor-pointer"
         >
           <Trash2 className="w-3.5 h-3.5" />
-          <span>{t.aiChat.clearChat}</span>
+          <span className="hidden sm:inline">{t.aiChat.clearChat}</span>
         </button>
       </div>
 
