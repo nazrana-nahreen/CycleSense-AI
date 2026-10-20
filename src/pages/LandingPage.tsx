@@ -364,13 +364,13 @@ export const LandingPage: React.FC = () => {
             {/* Preview Content */}
             <div className="bg-canvas rounded-2xl p-5 border border-rose-100/70">
               {activePreviewTab === 'dashboard' && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
                   <div className="bg-surface p-4 rounded-xl border border-rose-100">
                     <span className="text-xs text-plum-400 block font-medium">
                       {t.dashboard.cycleDay}
                     </span>
                     <span className="text-3xl font-extrabold text-plum-900 mt-1 block">
-                      Day 19
+                      Day 20
                     </span>
                     <Badge variant="lavender" size="sm" className="mt-2">
                       Luteal Phase (Est.)
@@ -390,17 +390,49 @@ export const LandingPage: React.FC = () => {
                   </div>
 
                   <div className="bg-surface p-4 rounded-xl border border-rose-100 flex flex-col justify-between">
-                    <span className="text-xs text-plum-400 block font-medium">
-                      AI Health Assistant
-                    </span>
-                    <p className="text-xs text-plum-700 italic mt-1">
-                      &quot;Your luteal phase is progressing normally with low reported pelvic cramps.&quot;
-                    </p>
+                    <div>
+                      <span className="text-xs text-plum-400 block font-medium">
+                        AI Health Assistant
+                      </span>
+                      <p className="text-xs text-plum-700 italic mt-1">
+                        &quot;Your luteal phase is progressing normally with low reported pelvic cramps.&quot;
+                      </p>
+                    </div>
                     <button
                       onClick={() => promptAuth('aiAssistant', 'AI Health Assistant', 'এআই স্বাস্থ্য সহায়ক')}
                       className="text-xs font-semibold text-rose-600 hover:text-rose-800 text-left mt-2 flex items-center gap-1 cursor-pointer"
                     >
                       Open Assistant <ChevronRight className="w-3 h-3" />
+                    </button>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-rose-50/70 to-peach-50/50 p-4 rounded-xl border border-rose-200/80 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-rose-700 block font-bold uppercase tracking-wider">
+                          {language === 'bn' ? 'সঙ্গী কম্প্যানিয়ন' : 'Partner Companion'}
+                        </span>
+                        <Heart className="w-4 h-4 fill-rose-500 text-rose-500" />
+                      </div>
+                      <div className="mt-1 flex items-center gap-1.5">
+                        <span className="text-xs font-mono font-bold bg-white px-2 py-0.5 rounded border border-rose-200 text-rose-600">
+                          CYCLE-8492
+                        </span>
+                        <Badge variant="sage" size="sm">
+                          Read-only
+                        </Badge>
+                      </div>
+                      <p className="text-[11px] text-plum-600 mt-1.5 leading-snug">
+                        {language === 'bn' 
+                          ? 'সঙ্গীর সাথে পিরিয়ড কাউন্টডাউন ও যত্নের টিপস শেয়ারিং।'
+                          : 'Read-only cycle countdowns & gentle care tips for your partner.'}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => promptAuth('partner_view', 'Partner Companion', 'সঙ্গী কম্প্যানিয়ন')}
+                      className="text-xs font-bold text-rose-600 hover:text-rose-800 text-left mt-2 flex items-center gap-1 cursor-pointer"
+                    >
+                      {language === 'bn' ? 'সঙ্গী ভিউ দেখুন' : 'Explore Partner View'} <ChevronRight className="w-3 h-3" />
                     </button>
                   </div>
                 </div>
@@ -459,7 +491,7 @@ export const LandingPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Card 1 */}
             <div className="bg-canvas p-6 rounded-3xl border border-rose-100/80 hover:shadow-lg transition-all space-y-4">
               <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center">
@@ -502,6 +534,21 @@ export const LandingPage: React.FC = () => {
                 {language === 'bn'
                   ? 'বাংলা ও ইংরেজিতে চিকিৎসা রেফারেন্সসহ প্রশ্নের নির্ভুল উত্তর। জরুরি বিপদচিহ্ন শনাক্তকরণ অ্যালগরিদম।'
                   : 'Ask complex cycle questions in English or Bengali. Responses feature peer-reviewed medical citations and safety triage.'}
+              </p>
+            </div>
+
+            {/* Card 4 */}
+            <div className="bg-canvas p-6 rounded-3xl border border-rose-100/80 hover:shadow-lg transition-all space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center">
+                <Heart className="w-6 h-6 fill-rose-500/20" />
+              </div>
+              <h3 className="font-bold text-lg text-plum-900">
+                {language === 'bn' ? 'সঙ্গী কেয়ার কম্প্যানিয়ন' : 'Partner Care Companion'}
+              </h3>
+              <p className="text-xs sm:text-sm text-plum-600 leading-relaxed">
+                {language === 'bn'
+                  ? 'সঙ্গীর সাথে রিড-অনলি সাইকেল ফেজ ও সহমর্মিতাপূর্ণ কেয়ার টিপস শেয়ারিং। ব্যক্তিগত মেডিকেল ডেটা সম্পূর্ণ গোপন থাকবে।'
+                  : 'Keep your supportive partner attuned with live cycle phases, countdowns, and empathetic comfort tips with 100% data safety.'}
               </p>
             </div>
           </div>

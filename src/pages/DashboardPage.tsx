@@ -262,28 +262,59 @@ export const DashboardPage: React.FC = () => {
             </Card>
           </div>
 
-          {/* Notification / Reminder Card */}
-          <Card className="p-4 bg-lavender-50/50 border-lavender-200/60">
-            <div className="flex items-start gap-3">
-              <div className="p-2 rounded-xl bg-lavender-200 text-lavender-800 shrink-0">
-                <Bell className="w-4 h-4" />
+          {/* Partner Sharing Quick Access Card (Top of Dashboard) */}
+          <Card className="p-4 bg-gradient-to-br from-rose-50/80 via-surface to-peach-50/60 border-rose-200/80 shadow-xs">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-start gap-2.5">
+                <div className="p-2.5 rounded-2xl bg-gradient-to-tr from-rose-500 to-peach-400 text-white shrink-0 shadow-xs">
+                  <Heart className="w-4 h-4 fill-white" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <h4 className="text-xs font-bold text-plum-900">
+                      {language === 'bn' ? 'সঙ্গী কেয়ার কম্প্যানিয়ন' : 'Partner Companion'}
+                    </h4>
+                    <Badge variant={user.partnerSharing?.isEnabled ? 'sage' : 'rose'} size="sm">
+                      {user.partnerSharing?.isEnabled ? (language === 'bn' ? 'সংযুক্ত' : 'Connected') : (language === 'bn' ? 'শেয়ার' : 'Share')}
+                    </Badge>
+                  </div>
+                  <p className="text-[11px] text-plum-600 mt-1 leading-snug">
+                    {language === 'bn' ? 'শেয়ার কোড: ' : 'Share Code: '}
+                    <strong className="font-mono text-rose-600 font-bold bg-white px-1.5 py-0.5 rounded border border-rose-200">
+                      {user.partnerSharing?.shareCode || 'CYCLE-8492'}
+                    </strong>
+                  </p>
+                </div>
               </div>
-              <div>
-                <h4 className="text-xs font-bold text-plum-900">
-                  {language === 'bn' ? 'রিমাইন্ডার পছন্দসমূহ' : 'Cycle Alert Preview'}
-                </h4>
-                <p className="text-xs text-plum-600 mt-0.5 leading-relaxed">
-                  {language === 'bn' 
-                    ? 'আপনার পছন্দ অনুযায়ী পিরিয়ডের সম্ভাব্য দিনের ২ দিন আগে আপনি সতর্কবার্তা পাবেন।'
-                    : 'Configured to notify 2 days ahead of forecasted period start via discrete notification.'}
-                </p>
-                <button
-                  onClick={() => setCurrentPage('settings')}
-                  className="text-xs font-semibold text-lavender-700 hover:text-lavender-900 underline mt-1.5 cursor-pointer"
-                >
-                  {language === 'bn' ? 'সেটিংস পরিবর্তন করুন' : 'Adjust Reminders'}
-                </button>
-              </div>
+
+              <Button
+                variant="primary"
+                size="sm"
+                icon={<ExternalLink className="w-3.5 h-3.5" />}
+                onClick={() => setCurrentPage('partner_view')}
+                className="!text-xs !py-1.5 !px-3 shrink-0 shadow-xs"
+              >
+                {language === 'bn' ? 'ভিউ খুলুন' : 'Open View'}
+              </Button>
+            </div>
+
+            <div className="mt-3 pt-2.5 border-t border-rose-100/70 flex items-center justify-between text-[11px]">
+              <button
+                type="button"
+                onClick={handleCopyCode}
+                className="text-rose-600 hover:text-rose-800 font-semibold flex items-center gap-1 cursor-pointer"
+              >
+                {copiedCode ? <Check className="w-3.5 h-3.5 text-sage-600" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedCode ? (language === 'bn' ? 'কপি হয়েছে!' : 'Copied!') : (language === 'bn' ? 'কোড কপি করুন' : 'Copy Code')}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setCurrentPage('profile')}
+                className="text-plum-500 hover:text-plum-800 font-medium underline cursor-pointer"
+              >
+                {language === 'bn' ? 'অনুমতি সেটিংস' : 'Manage Permissions'}
+              </button>
             </div>
           </Card>
         </div>
