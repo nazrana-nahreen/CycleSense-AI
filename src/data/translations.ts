@@ -246,6 +246,13 @@ export const translations = {
       moderate: 'Moderate',
       severe: 'Severe',
     },
+    auth: {
+      authRequiredTitle: 'Authentication Required',
+      authRequiredSubtitle: 'You need to sign up first or log in to access CycleSense AI services. No inside health data or features will be shown until you authenticate.',
+      signInBtn: 'Sign In to Your Account',
+      signUpBtn: 'Create a Free Account',
+      backToHome: 'Back to Public Home',
+    },
   },
   bn: {
     appName: 'সাইকেলসেন্স এআই (CycleSense AI)',
@@ -491,6 +498,13 @@ export const translations = {
       mild: 'হালকা',
       moderate: 'মাঝারি',
       severe: 'তীব্র',
+    },
+    auth: {
+      authRequiredTitle: 'অথেনটিকেশন আবশ্যক',
+      authRequiredSubtitle: 'সাইকেলসেন্স এআই স্বাস্থ্য সেবা ও ব্যক্তিগত তথ্য দেখতে প্রথমে সাইন আপ অথবা লগ ইন করুন। অথেনটিকেশন ছাড়া কোনো অভ্যন্তরীণ তথ্য প্রদর্শিত হবে না।',
+      signInBtn: 'আপনার অ্যাকাউন্টে লগ ইন করুন',
+      signUpBtn: 'নতুন ফ্রি অ্যাকাউন্ট তৈরি করুন',
+      backToHome: 'পাবলিক হোমপেজে ফিরে যান',
     },
   },
 };

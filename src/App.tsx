@@ -6,6 +6,7 @@ import { BottomNav } from './components/common/BottomNav';
 import { DisclaimerBanner } from './components/common/DisclaimerBanner';
 import { PeriodLoggerModal } from './components/cycle/PeriodLoggerModal';
 import { ChatDrawer } from './components/chat/ChatDrawer';
+import { AuthRequiredGuard } from './components/common/AuthRequiredGuard';
 
 // Pages
 import { LandingPage } from './pages/LandingPage';
@@ -41,6 +42,12 @@ const AppContent: React.FC = () => {
   // Standalone Read-Only Partner Companion Page
   if (currentPage === 'partner_view') {
     return <PartnerViewPage />;
+  }
+
+  // Authentication Guard:
+  // If user is not logged in, block all internal health pages and require authentication
+  if (!isLoggedIn) {
+    return <AuthRequiredGuard attemptedPage={currentPage} />;
   }
 
   // Helper title resolver

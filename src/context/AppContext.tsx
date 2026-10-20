@@ -53,10 +53,15 @@ interface AppContextType {
   cycleStats: ReturnType<typeof calculateCycleStats>;
   t: typeof translations['en'];
   
-  // Handlers
+  // Handlers & Auth
   setLanguage: (lang: Language) => void;
   setCurrentPage: (page: string) => void;
   setIsLoggedIn: (logged: boolean) => void;
+  redirectAfterAuth: string | null;
+  setRedirectAfterAuth: (page: string | null) => void;
+  authRequiredNotice: string | null;
+  setAuthRequiredNotice: (notice: string | null) => void;
+  logout: () => void;
   setSelectedDate: (date: string) => void;
   setSelectedArticleId: (id: string | null) => void;
   setIsChatDrawerOpen: (open: boolean) => void;
@@ -124,7 +129,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
     return 'landing';
   });
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true); // default true for rich interactive evaluation, but accessible to landing & auth
+  const [isLoggedIn, setIsLoggedInState] = useState<boolean>(() => {
+    return localStorage.getItem('cyclesense_logged_in') === 'true';
+  });
+  const [redirectAfterAuth, setRedirectAfterAuth] = useState<string | null>(null);
+  const [authRequiredNotice, setAuthRequiredNotice] = useState<string | null>(null);
+
+  const setIsLoggedIn = (logged: boolean) => {
+    setIsLoggedInState(logged);
+    if (logged) {
+      localStorage.setItem('cyclesense_logged_in', 'true');
+    } else {
+      localStorage.removeItem('cyclesense_logged_in');
+      localStorage.removeItem('cyclesense_auth_token');
+    }
+  };
+
+  const logout = () => {
+    setIsLoggedIn(false);
+    setCurrentPage('landing');
+  };
   const [selectedDate, setSelectedDate] = useState<string>('2026-10-19');
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
   const [isChatDrawerOpen, setIsChatDrawerOpen] = useState<boolean>(false);
@@ -467,6 +491,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setLanguage,
         setCurrentPage,
         setIsLoggedIn,
+        redirectAfterAuth,
+        setRedirectAfterAuth,
+        authRequiredNotice,
+        setAuthRequiredNotice,
+        logout,
         setSelectedDate,
         setSelectedArticleId,
         setIsChatDrawerOpen,

@@ -24,8 +24,27 @@ interface AuthPageProps {
 }
 
 export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'signin' }) => {
-  const { setCurrentPage, setIsLoggedIn, updateUserProfile, language, setLanguage, t } = useApp();
+  const { 
+    setCurrentPage, 
+    setIsLoggedIn, 
+    updateUserProfile, 
+    language, 
+    setLanguage, 
+    redirectAfterAuth, 
+    setRedirectAfterAuth, 
+    authRequiredNotice, 
+    setAuthRequiredNotice, 
+    t 
+  } = useApp();
   const [mode, setMode] = useState<AuthMode>(initialMode);
+
+  const completeAuthentication = () => {
+    setIsLoggedIn(true);
+    const target = redirectAfterAuth || 'dashboard';
+    setRedirectAfterAuth(null);
+    setAuthRequiredNotice(null);
+    setCurrentPage(target);
+  };
 
   // Form Fields
   const [name, setName] = useState('Amina Rahman');
@@ -73,13 +92,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'signin' }) =>
           });
           setLanguage(res.user.preferred_language);
         }
-        setIsLoggedIn(true);
-        setCurrentPage('dashboard');
+        completeAuthentication();
       } catch (err: any) {
         if (err.message && (err.message.includes('Failed to fetch') || err.message.includes('NetworkError'))) {
           // Fallback to local session if backend server is not running
-          setIsLoggedIn(true);
-          setCurrentPage('dashboard');
+          completeAuthentication();
         } else {
           setErrorMessage(err.message || 'Authentication failed. Please verify your credentials.');
         }
@@ -143,8 +160,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'signin' }) =>
             : 'Account registered successfully! Redirecting to dashboard...'
         );
         setTimeout(() => {
-          setIsLoggedIn(true);
-          setCurrentPage('dashboard');
+          completeAuthentication();
         }, 700);
       } catch (err: any) {
         if (err.message && (err.message.includes('Failed to fetch') || err.message.includes('NetworkError'))) {
@@ -196,8 +212,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'signin' }) =>
       );
       setIsLoading(false);
       setTimeout(() => {
-        setIsLoggedIn(true);
-        setCurrentPage('dashboard');
+        completeAuthentication();
       }, 800);
     }
   };
@@ -244,6 +259,16 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'signin' }) =>
       {/* Main Card Container */}
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
         <div className="bg-surface py-8 px-6 shadow-soft-lg rounded-3xl border border-rose-100/90 sm:px-10">
+          {authRequiredNotice && (
+            <div className="mb-5 p-3.5 rounded-2xl bg-amber-50/90 border border-amber-200 text-amber-900 text-xs font-medium flex items-start gap-2.5 animate-fadeIn">
+              <Lock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold">{language === 'bn' ? 'অথেনটিকেশন আবশ্যক' : 'Authentication Required'}</p>
+                <p className="text-[11px] text-amber-800 mt-0.5 leading-relaxed">{authRequiredNotice}</p>
+              </div>
+            </div>
+          )}
+
           {errorMessage && (
             <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />

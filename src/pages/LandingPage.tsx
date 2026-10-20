@@ -22,13 +22,31 @@ import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
 
 export const LandingPage: React.FC = () => {
-  const { setCurrentPage, setIsLoggedIn, language, setLanguage, t } = useApp();
+  const { 
+    setCurrentPage, 
+    isLoggedIn, 
+    setRedirectAfterAuth, 
+    setAuthRequiredNotice, 
+    setIsChatDrawerOpen, 
+    language, 
+    setLanguage, 
+    t 
+  } = useApp();
   const [activePreviewTab, setActivePreviewTab] = useState<'calendar' | 'dashboard' | 'insights'>('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const handleGetStarted = () => {
-    setIsLoggedIn(true);
-    setCurrentPage('dashboard');
+  const handleGetStarted = (targetPage: string = 'dashboard') => {
+    if (isLoggedIn) {
+      setCurrentPage(targetPage);
+    } else {
+      setRedirectAfterAuth(targetPage);
+      setAuthRequiredNotice(
+        language === 'bn'
+          ? 'ড্যাশবোর্ড ও ট্র্যাকিং সেবা ব্যবহারের জন্য অনুগ্রহ করে সাইন আপ অথবা লগ ইন করুন।'
+          : 'Please sign up or log in first to access your personalized health dashboard.'
+      );
+      setCurrentPage('auth_signup');
+    }
   };
 
   const handleSignIn = () => {
@@ -357,7 +375,7 @@ export const LandingPage: React.FC = () => {
                       &quot;Your luteal phase is progressing normally with low reported pelvic cramps.&quot;
                     </p>
                     <button
-                      onClick={handleGetStarted}
+                      onClick={() => handleGetStarted('aiAssistant')}
                       className="text-xs font-semibold text-rose-600 hover:text-rose-800 text-left mt-2 flex items-center gap-1 cursor-pointer"
                     >
                       Open Assistant <ChevronRight className="w-3 h-3" />
@@ -375,7 +393,7 @@ export const LandingPage: React.FC = () => {
                   <p className="text-xs text-plum-600 max-w-md mx-auto">
                     Distinguish logged bleeding days (rose), predicted cycles (dashed), and estimated ovulation windows with transparent uncertainty margins.
                   </p>
-                  <Button variant="soft" size="sm" onClick={handleGetStarted}>
+                  <Button variant="soft" size="sm" onClick={() => handleGetStarted('calendar')}>
                     Open Calendar View
                   </Button>
                 </div>
@@ -390,7 +408,7 @@ export const LandingPage: React.FC = () => {
                   <p className="text-xs text-plum-600 max-w-md mx-auto">
                     Average cycle length: 28.6 days • Variation: ±0.5 days • Clear data patterns formatted for productive consultations with your gynecologist.
                   </p>
-                  <Button variant="soft" size="sm" onClick={handleGetStarted}>
+                  <Button variant="soft" size="sm" onClick={() => handleGetStarted('insights')}>
                     View Analytics
                   </Button>
                 </div>
@@ -664,8 +682,17 @@ export const LandingPage: React.FC = () => {
                 variant="secondary"
                 size="md"
                 onClick={() => {
-                  setIsLoggedIn(true);
-                  setCurrentPage('education');
+                  if (isLoggedIn) {
+                    setCurrentPage('education');
+                  } else {
+                    setRedirectAfterAuth('education');
+                    setAuthRequiredNotice(
+                      language === 'bn'
+                        ? 'সম্পূর্ণ পিসিওএস গাইড ও রিসোর্স লাইব্রেরি ব্যবহারের জন্য অনুগ্রহ করে প্রথমে সাইন আপ অথবা লগ ইন করুন। অথেনটিকেশন ছাড়া কোনো অভ্যন্তরীণ তথ্য প্রদর্শিত হবে না।'
+                        : 'You need to sign up first or log in first to access the PCOS Resource Library. No inside health data or educational modules will be shown until you authenticate.'
+                    );
+                    setCurrentPage('auth_signin');
+                  }
                 }}
                 className="w-full text-xs sm:text-sm"
               >
@@ -774,6 +801,30 @@ export const LandingPage: React.FC = () => {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* Action button to explore Mental Health module */}
+          <div className="text-center pt-4">
+            <Button
+              variant="secondary"
+              size="lg"
+              onClick={() => {
+                if (isLoggedIn) {
+                  setCurrentPage('mentalHealth');
+                } else {
+                  setRedirectAfterAuth('mentalHealth');
+                  setAuthRequiredNotice(
+                    language === 'bn'
+                      ? 'মানসিক স্বাস্থ্য ও মুড জার্নাল ব্যবহারের জন্য অনুগ্রহ করে প্রথমে সাইন আপ অথবা লগ ইন করুন। অথেনটিকেশন ছাড়া কোনো অভ্যন্তরীণ তথ্য প্রদর্শিত হবে না।'
+                      : 'You need to sign up first or log in first to access the Mental Health module. No inside data will be shown until you authenticate.'
+                  );
+                  setCurrentPage('auth_signin');
+                }
+              }}
+              className="text-xs sm:text-sm px-6 py-3 shadow-md"
+            >
+              {language === 'bn' ? 'মানসিক স্বাস্থ্য ও মুড জার্নাল দেখুন' : 'Explore Mental Health & Mood Journal'}
+            </Button>
           </div>
         </div>
       </section>
