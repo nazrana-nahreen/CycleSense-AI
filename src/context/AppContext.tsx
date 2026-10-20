@@ -130,7 +130,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return 'landing';
   });
   const [isLoggedIn, setIsLoggedInState] = useState<boolean>(() => {
-    return localStorage.getItem('cyclesense_logged_in') === 'true';
+    // Clean up any stale legacy demo flag
+    if (localStorage.getItem('cyclesense_logged_in') && !localStorage.getItem('cyclesense_authenticated_session') && !localStorage.getItem('cyclesense_auth_token')) {
+      localStorage.removeItem('cyclesense_logged_in');
+    }
+    const explicitSession = localStorage.getItem('cyclesense_authenticated_session');
+    const token = localStorage.getItem('cyclesense_auth_token');
+    return explicitSession === 'true' || !!token;
   });
   const [redirectAfterAuth, setRedirectAfterAuth] = useState<string | null>(null);
   const [authRequiredNotice, setAuthRequiredNotice] = useState<string | null>(null);
@@ -138,8 +144,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const setIsLoggedIn = (logged: boolean) => {
     setIsLoggedInState(logged);
     if (logged) {
+      localStorage.setItem('cyclesense_authenticated_session', 'true');
       localStorage.setItem('cyclesense_logged_in', 'true');
     } else {
+      localStorage.removeItem('cyclesense_authenticated_session');
       localStorage.removeItem('cyclesense_logged_in');
       localStorage.removeItem('cyclesense_auth_token');
     }

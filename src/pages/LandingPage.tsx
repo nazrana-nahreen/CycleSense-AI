@@ -16,7 +16,9 @@ import {
   HelpCircle,
   Stethoscope,
   Menu,
-  X
+  X,
+  LogIn,
+  UserPlus
 } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
@@ -35,18 +37,38 @@ export const LandingPage: React.FC = () => {
   const [activePreviewTab, setActivePreviewTab] = useState<'calendar' | 'dashboard' | 'insights'>('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const handleGetStarted = (targetPage: string = 'dashboard') => {
+  // Interactive Authentication Modal State
+  const [authModal, setAuthModal] = useState<{
+    isOpen: boolean;
+    page: string;
+    titleEn: string;
+    titleBn: string;
+  }>({
+    isOpen: false,
+    page: '',
+    titleEn: '',
+    titleBn: '',
+  });
+
+  const promptAuth = (page: string, titleEn: string, titleBn: string) => {
     if (isLoggedIn) {
-      setCurrentPage(targetPage);
+      setCurrentPage(page);
     } else {
-      setRedirectAfterAuth(targetPage);
-      setAuthRequiredNotice(
-        language === 'bn'
-          ? 'ড্যাশবোর্ড ও ট্র্যাকিং সেবা ব্যবহারের জন্য অনুগ্রহ করে সাইন আপ অথবা লগ ইন করুন।'
-          : 'Please sign up or log in first to access your personalized health dashboard.'
-      );
-      setCurrentPage('auth_signup');
+      setAuthModal({
+        isOpen: true,
+        page,
+        titleEn,
+        titleBn,
+      });
     }
+  };
+
+  const handleGetStarted = (targetPage: string = 'dashboard') => {
+    promptAuth(
+      targetPage,
+      'Personal Health Dashboard',
+      'ব্যক্তিগত হেলথ ড্যাশবোর্ড'
+    );
   };
 
   const handleSignIn = () => {
@@ -375,7 +397,7 @@ export const LandingPage: React.FC = () => {
                       &quot;Your luteal phase is progressing normally with low reported pelvic cramps.&quot;
                     </p>
                     <button
-                      onClick={() => handleGetStarted('aiAssistant')}
+                      onClick={() => promptAuth('aiAssistant', 'AI Health Assistant', 'এআই স্বাস্থ্য সহায়ক')}
                       className="text-xs font-semibold text-rose-600 hover:text-rose-800 text-left mt-2 flex items-center gap-1 cursor-pointer"
                     >
                       Open Assistant <ChevronRight className="w-3 h-3" />
@@ -393,7 +415,7 @@ export const LandingPage: React.FC = () => {
                   <p className="text-xs text-plum-600 max-w-md mx-auto">
                     Distinguish logged bleeding days (rose), predicted cycles (dashed), and estimated ovulation windows with transparent uncertainty margins.
                   </p>
-                  <Button variant="soft" size="sm" onClick={() => handleGetStarted('calendar')}>
+                  <Button variant="soft" size="sm" onClick={() => promptAuth('calendar', 'Interactive Menstrual Calendar', 'ইন্টারেক্টিভ মাসিক ক্যালেন্ডার')}>
                     Open Calendar View
                   </Button>
                 </div>
@@ -408,7 +430,7 @@ export const LandingPage: React.FC = () => {
                   <p className="text-xs text-plum-600 max-w-md mx-auto">
                     Average cycle length: 28.6 days • Variation: ±0.5 days • Clear data patterns formatted for productive consultations with your gynecologist.
                   </p>
-                  <Button variant="soft" size="sm" onClick={() => handleGetStarted('insights')}>
+                  <Button variant="soft" size="sm" onClick={() => promptAuth('insights', 'Cycle & Symptom Analytics', 'সাইকেল ও লক্ষণ বিশ্লেষণ')}>
                     View Analytics
                   </Button>
                 </div>
@@ -681,19 +703,7 @@ export const LandingPage: React.FC = () => {
               <Button
                 variant="secondary"
                 size="md"
-                onClick={() => {
-                  if (isLoggedIn) {
-                    setCurrentPage('education');
-                  } else {
-                    setRedirectAfterAuth('education');
-                    setAuthRequiredNotice(
-                      language === 'bn'
-                        ? 'সম্পূর্ণ পিসিওএস গাইড ও রিসোর্স লাইব্রেরি ব্যবহারের জন্য অনুগ্রহ করে প্রথমে সাইন আপ অথবা লগ ইন করুন। অথেনটিকেশন ছাড়া কোনো অভ্যন্তরীণ তথ্য প্রদর্শিত হবে না।'
-                        : 'You need to sign up first or log in first to access the PCOS Resource Library. No inside health data or educational modules will be shown until you authenticate.'
-                    );
-                    setCurrentPage('auth_signin');
-                  }
-                }}
+                onClick={() => promptAuth('education', 'PCOS & Health Education Library', 'পিসিওএস ও স্বাস্থ্য শিক্ষা লাইব্রেরি')}
                 className="w-full text-xs sm:text-sm"
               >
                 {language === 'bn' ? 'সম্পূর্ণ পিসিওএস গাইড পড়ুন' : 'Explore Full PCOS Resource Library'}
@@ -808,19 +818,7 @@ export const LandingPage: React.FC = () => {
             <Button
               variant="secondary"
               size="lg"
-              onClick={() => {
-                if (isLoggedIn) {
-                  setCurrentPage('mentalHealth');
-                } else {
-                  setRedirectAfterAuth('mentalHealth');
-                  setAuthRequiredNotice(
-                    language === 'bn'
-                      ? 'মানসিক স্বাস্থ্য ও মুড জার্নাল ব্যবহারের জন্য অনুগ্রহ করে প্রথমে সাইন আপ অথবা লগ ইন করুন। অথেনটিকেশন ছাড়া কোনো অভ্যন্তরীণ তথ্য প্রদর্শিত হবে না।'
-                      : 'You need to sign up first or log in first to access the Mental Health module. No inside data will be shown until you authenticate.'
-                  );
-                  setCurrentPage('auth_signin');
-                }
-              }}
+              onClick={() => promptAuth('mentalHealth', 'Mental Health & Mood Journal', 'মানসিক স্বাস্থ্য ও মুড জার্নাল')}
               className="text-xs sm:text-sm px-6 py-3 shadow-md"
             >
               {language === 'bn' ? 'মানসিক স্বাস্থ্য ও মুড জার্নাল দেখুন' : 'Explore Mental Health & Mood Journal'}
@@ -910,6 +908,96 @@ export const LandingPage: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* Interactive Authentication Prompt Modal */}
+      {authModal.isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-plum-950/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-surface max-w-md w-full rounded-3xl p-6 sm:p-8 shadow-2xl border border-rose-200 text-center space-y-5 animate-scaleUp">
+            {/* Lock Icon */}
+            <div className="mx-auto w-16 h-16 rounded-3xl bg-gradient-to-tr from-rose-500 to-rose-400 text-white flex items-center justify-center shadow-lg shadow-rose-500/25">
+              <Lock className="w-8 h-8 stroke-[2.2]" />
+            </div>
+
+            {/* Title & Context */}
+            <div className="space-y-1.5">
+              <Badge variant="rose" size="sm">
+                {language === 'bn' ? 'প্রবেশাধিকার সংরক্ষিত' : 'Authentication Required'}
+              </Badge>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-plum-900 tracking-tight">
+                {language === 'bn' ? 'সাইন ইন বা রেজিস্ট্রেশন আবশ্যক' : 'Sign Up or Log In Required'}
+              </h3>
+              <p className="text-xs font-semibold text-rose-600 bg-rose-50 py-1 px-3 rounded-full inline-block border border-rose-100 mt-1">
+                {language === 'bn' ? authModal.titleBn : authModal.titleEn}
+              </p>
+            </div>
+
+            {/* Crucial Explanatory Notice */}
+            <div className="p-4 rounded-2xl bg-canvas border border-rose-100 text-xs sm:text-sm text-plum-800 leading-relaxed text-left space-y-2">
+              <div className="flex items-start gap-2.5">
+                <ShieldCheck className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+                <p className="font-semibold text-plum-900">
+                  {language === 'bn'
+                    ? 'আপনাকে প্রথমে সাইন আপ অথবা লগ ইন করতে হবে, অন্যথায় কোনো অভ্যন্তরীণ তথ্য বা ডেটা দেখানো হবে না।'
+                    : 'You need to sign up first or log in first, otherwise no inside data will be shown.'}
+                </p>
+              </div>
+              <p className="text-plum-600 pl-7 text-[11px] leading-normal">
+                {language === 'bn'
+                  ? 'আপনার স্বাস্থ্য তথ্য ও প্রজনন স্বাস্থ্যের ডেটা সম্পূর্ণ সুরক্ষিত রাখতে সকল অভ্যন্তরীণ সেবা কেবল নিবন্ধিত ব্যবহারকারীদের জন্য উন্মুক্ত।'
+                  : 'For medical integrity and personal data privacy, all cycle tracking tools, symptom diaries, and educational libraries remain strictly locked.'}
+              </p>
+            </div>
+
+            {/* CTAs */}
+            <div className="space-y-2.5 pt-1">
+              <Button
+                variant="primary"
+                size="md"
+                onClick={() => {
+                  setRedirectAfterAuth(authModal.page);
+                  setAuthRequiredNotice(
+                    language === 'bn'
+                      ? 'আপনাকে প্রথমে সাইন আপ অথবা লগ ইন করতে হবে, অন্যথায় কোনো অভ্যন্তরীণ তথ্য বা ডেটা দেখানো হবে না।'
+                      : 'You need to sign up first or log in first, otherwise no inside data will be shown.'
+                  );
+                  setAuthModal({ ...authModal, isOpen: false });
+                  setCurrentPage('auth_signin');
+                }}
+                className="w-full justify-center shadow-md shadow-rose-500/20"
+              >
+                <LogIn className="w-4 h-4 mr-2" />
+                <span>{language === 'bn' ? 'আপনার অ্যাকাউন্টে লগ ইন করুন (Log In)' : 'Sign In to Your Account (Log In)'}</span>
+              </Button>
+
+              <Button
+                variant="outline"
+                size="md"
+                onClick={() => {
+                  setRedirectAfterAuth(authModal.page);
+                  setAuthRequiredNotice(
+                    language === 'bn'
+                      ? 'আপনাকে প্রথমে সাইন আপ অথবা লগ ইন করতে হবে, অন্যথায় কোনো অভ্যন্তরীণ তথ্য বা ডেটা দেখানো হবে না।'
+                      : 'You need to sign up first or log in first, otherwise no inside data will be shown.'
+                  );
+                  setAuthModal({ ...authModal, isOpen: false });
+                  setCurrentPage('auth_signup');
+                }}
+                className="w-full justify-center"
+              >
+                <UserPlus className="w-4 h-4 mr-2" />
+                <span>{language === 'bn' ? 'নতুন অ্যাকাউন্ট তৈরি করুন (Sign Up)' : 'Create Free Account (Sign Up)'}</span>
+              </Button>
+
+              <button
+                onClick={() => setAuthModal({ ...authModal, isOpen: false })}
+                className="pt-2 text-xs font-semibold text-plum-500 hover:text-plum-800 transition-colors cursor-pointer"
+              >
+                {language === 'bn' ? '✕ বাতিল করুন / হোমপেজে থাকুন' : '✕ Stay on Landing Page'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
