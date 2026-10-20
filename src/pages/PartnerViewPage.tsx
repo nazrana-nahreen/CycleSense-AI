@@ -132,9 +132,9 @@ export const PartnerViewPage: React.FC = () => {
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setCurrentPage('profile')}
+              onClick={() => setCurrentPage('dashboard')}
               className="p-2 rounded-xl text-plum-600 hover:text-plum-900 hover:bg-rose-50 transition-colors cursor-pointer"
-              title={isBn ? 'প্রোফাইলে ফিরে যান' : 'Back to Profile'}
+              title={isBn ? 'ড্যাশবোর্ডে ফিরে যান' : 'Back to Dashboard'}
             >
               <ArrowLeft className="w-5 h-5" />
             </button>

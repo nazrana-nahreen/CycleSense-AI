@@ -12,7 +12,8 @@ import {
   ShieldCheck, 
   Settings, 
   X,
-  Brain
+  Brain,
+  Heart
 } from 'lucide-react';
 
 export const BottomNav: React.FC = () => {
@@ -27,6 +28,7 @@ export const BottomNav: React.FC = () => {
   ];
 
   const moreTabs = [
+    { id: 'partner_view', label: language === 'bn' ? 'সঙ্গী কম্প্যানিয়ন' : 'Partner View', icon: Heart },
     { id: 'insights', label: t.nav.insights, icon: TrendingUp },
     { id: 'education', label: t.nav.education, icon: BookOpen },
     { id: 'aiAssistant', label: t.nav.aiAssistant, icon: Bot },

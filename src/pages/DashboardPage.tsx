@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { 
   Calendar as CalendarIcon, 
@@ -14,7 +14,13 @@ import {
   Heart, 
   Clock, 
   BookOpen,
-  Bell
+  Bell,
+  Copy,
+  Check,
+  ExternalLink,
+  ShieldCheck,
+  Share2,
+  Users
 } from 'lucide-react';
 import { Card } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
@@ -47,6 +53,26 @@ export const DashboardPage: React.FC = () => {
     setIsAddPeriodModalOpen, 
     setIsChatDrawerOpen 
   } = useApp();
+
+  const [copiedCode, setCopiedCode] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
+
+  const handleCopyCode = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const code = user.partnerSharing?.shareCode || 'CYCLE-8492';
+    navigator.clipboard.writeText(code);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2000);
+  };
+
+  const handleCopyLink = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const code = user.partnerSharing?.shareCode || 'CYCLE-8492';
+    const link = `${window.location.origin}/#partner_view?code=${code}`;
+    navigator.clipboard.writeText(link);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
+  };
 
   // Prepare chart data for cycle lengths
   const cycleChartData = [...cycles].reverse().map((c, i) => ({
@@ -130,6 +156,15 @@ export const DashboardPage: React.FC = () => {
             onClick={() => setIsChatDrawerOpen(true)}
           >
             {t.dashboard.askAi}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="sm:!py-2.5 sm:!px-4 sm:!text-sm border-rose-200 text-rose-700 hover:bg-rose-50"
+            icon={<Heart className="w-4 h-4 text-rose-500 fill-rose-500/20" />}
+            onClick={() => setCurrentPage('partner_view')}
+          >
+            {language === 'bn' ? 'সঙ্গী ভিউ' : 'Partner Companion'}
           </Button>
         </div>
       </div>
@@ -242,6 +277,96 @@ export const DashboardPage: React.FC = () => {
           </Card>
         </div>
       </div>
+
+      {/* ================= PARTNER SHARING & CARE COMPANION SHOWCASE ================= */}
+      <Card className="bg-gradient-to-br from-rose-50/90 via-surface to-peach-50/60 border border-rose-200/80 p-5 sm:p-6 shadow-soft space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-rose-100">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rose-500 to-peach-400 text-white flex items-center justify-center shadow-md shadow-rose-500/20 shrink-0">
+              <Heart className="w-6 h-6 fill-white stroke-[2.2]" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-bold text-base sm:text-lg text-plum-900">
+                  {language === 'bn' ? 'সঙ্গী শেয়ারিং ও কেয়ার কম্প্যানিয়ন' : 'Partner Cycle Sharing & Support'}
+                </h3>
+                <Badge variant={user.partnerSharing?.isEnabled ? 'sage' : 'rose'} size="sm">
+                  {user.partnerSharing?.isEnabled 
+                    ? (language === 'bn' 
+                        ? (user.partnerSharing.partnerName ? `${user.partnerSharing.partnerName}-এর সাথে সংযুক্ত` : 'সক্রিয় সংযোগ') 
+                        : (user.partnerSharing.partnerName ? `Connected with ${user.partnerSharing.partnerName}` : 'Active Connection'))
+                    : (language === 'bn' ? 'শেয়ার করতে প্রস্তুত' : 'Ready to Connect')}
+                </Badge>
+              </div>
+              <p className="text-xs text-plum-600 mt-0.5">
+                {language === 'bn'
+                  ? 'আপনার জীবনসঙ্গীকে পরবর্তী পিরিয়ডের দিন, হরমোন পর্যায় এবং ভালোবাসার যত্ন সম্পর্কে অবগত রাখুন।'
+                  : 'Keep your supportive partner informed with real-time cycle phases, period countdowns, and caring empathy tips.'}
+              </p>
+            </div>
+          </div>
+
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <Button
+              variant="primary"
+              size="sm"
+              icon={<ExternalLink className="w-3.5 h-3.5" />}
+              onClick={() => setCurrentPage('partner_view')}
+            >
+              {language === 'bn' ? 'সঙ্গী ভিউ খুলুন' : 'Open Partner View'}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage('profile')}
+            >
+              {language === 'bn' ? 'শেয়ারিং সেটিংস' : 'Manage Sharing'}
+            </Button>
+          </div>
+        </div>
+
+        {/* Share Code & Link Tray */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center pt-1">
+          <div className="md:col-span-7 space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-bold text-plum-700 uppercase tracking-wider">
+                {language === 'bn' ? 'ইউনিক শেয়ার কোড:' : 'Your Share Code:'}
+              </span>
+              <div className="bg-white px-3 py-1.5 rounded-xl border border-rose-200 font-mono font-black text-sm tracking-widest text-rose-600 shadow-xs">
+                {user.partnerSharing?.shareCode || 'CYCLE-8492'}
+              </div>
+              <button
+                type="button"
+                onClick={handleCopyCode}
+                className="px-3 py-1.5 bg-rose-100/70 hover:bg-rose-100 text-rose-800 rounded-xl font-semibold text-xs transition-colors flex items-center gap-1 cursor-pointer"
+              >
+                {copiedCode ? <Check className="w-3.5 h-3.5 text-sage-600" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedCode ? (language === 'bn' ? 'কপি হয়েছে!' : 'Copied!') : (language === 'bn' ? 'কোড কপি' : 'Copy Code')}</span>
+              </button>
+            </div>
+            <p className="text-[11px] text-plum-500 flex items-center gap-1.5 leading-normal">
+              <ShieldCheck className="w-4 h-4 text-sage-600 shrink-0" />
+              <span>
+                {language === 'bn'
+                  ? 'সম্পূর্ণ রিড-অনলি ও সুরক্ষিত: আপনার ব্যক্তিগত লক্ষণ ও বিস্তারিত নোট কখনোই শেয়ার করা হয় না।'
+                  : '100% Read-only & Secure: Confidential symptom diaries and intimate medical notes remain private.'}
+              </span>
+            </p>
+          </div>
+
+          <div className="md:col-span-5 flex md:justify-end items-center gap-2">
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              className="w-full md:w-auto px-4 py-2 bg-white hover:bg-peach-50 text-plum-700 border border-rose-200 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
+            >
+              {copiedLink ? <Check className="w-3.5 h-3.5 text-sage-600" /> : <Share2 className="w-3.5 h-3.5 text-rose-500" />}
+              <span>{copiedLink ? (language === 'bn' ? 'লিংক কপি হয়েছে!' : 'Link Copied!') : (language === 'bn' ? 'সরাসরি ব্রাউজার লিংক কপি' : 'Copy Direct Companion Link')}</span>
+            </button>
+          </div>
+        </div>
+      </Card>
 
       {/* Recent History & Symptom Trends */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -363,33 +488,33 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* Connected Modules Spotlight */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Module 1: Period Health */}
         <div 
           onClick={() => setCurrentPage('calendar')}
           className="bg-gradient-to-br from-rose-50/80 to-peach-50/60 rounded-3xl p-5 border border-rose-200/70 hover:shadow-soft transition-all cursor-pointer flex items-center justify-between group"
         >
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-white p-2 shadow-xs border border-rose-100 flex items-center justify-center shrink-0">
+          <div className="flex items-center gap-3.5 min-w-0">
+            <div className="w-12 h-12 rounded-2xl bg-white p-2 shadow-xs border border-rose-100 flex items-center justify-center shrink-0">
               <img
                 src="/images/uterus-cute.png"
                 alt="Period Health Module"
                 className="w-full h-full object-contain group-hover:scale-110 transition-transform"
               />
             </div>
-            <div className="space-y-1">
+            <div className="space-y-0.5 min-w-0">
               <span className="text-[10px] font-bold uppercase tracking-wider text-rose-700 block">
                 {language === 'bn' ? 'মডিউল ১' : 'Module 1'}
               </span>
-              <h4 className="font-bold text-base text-plum-900">
-                {language === 'bn' ? 'পিরিয়ড ও সাইকেল স্বাস্থ্য' : 'Period Health & Menstrual Cycle'}
+              <h4 className="font-bold text-sm sm:text-base text-plum-900 truncate">
+                {language === 'bn' ? 'পিরিয়ড ও সাইকেল স্বাস্থ্য' : 'Period Health & Cycles'}
               </h4>
               <p className="text-xs text-plum-600 line-clamp-1">
-                {language === 'bn' ? 'পিরিয়ড তারিখ, প্রবাহের মাত্রা, শারীরিক লক্ষণ ও ক্যালেন্ডার' : 'Period logging, flow intensity, physical symptoms & cycle stats'}
+                {language === 'bn' ? 'তারিখ, প্রবাহ, লক্ষণ ও ক্যালেন্ডার' : 'Period dates, flow & calendar'}
               </p>
             </div>
           </div>
-          <ChevronRight className="w-5 h-5 text-rose-500 shrink-0 ml-3" />
+          <ChevronRight className="w-4 h-4 text-rose-500 shrink-0 ml-2" />
         </div>
 
         {/* Module 2: Mental Health */}
@@ -397,27 +522,51 @@ export const DashboardPage: React.FC = () => {
           onClick={() => setCurrentPage('mentalHealth')}
           className="bg-gradient-to-br from-lavender-50/80 to-rose-50/60 rounded-3xl p-5 border border-lavender-200/70 hover:shadow-soft transition-all cursor-pointer flex items-center justify-between group"
         >
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-white p-2 shadow-xs border border-lavender-100 flex items-center justify-center shrink-0">
+          <div className="flex items-center gap-3.5 min-w-0">
+            <div className="w-12 h-12 rounded-2xl bg-white p-2 shadow-xs border border-lavender-100 flex items-center justify-center shrink-0">
               <img
                 src="/images/meditating-brain.png"
                 alt="Mental Health Module"
                 className="w-full h-full object-contain group-hover:scale-110 transition-transform"
               />
             </div>
-            <div className="space-y-1">
+            <div className="space-y-0.5 min-w-0">
               <span className="text-[10px] font-bold uppercase tracking-wider text-lavender-700 block">
                 {language === 'bn' ? 'মডিউল ২' : 'Module 2'}
               </span>
-              <h4 className="font-bold text-base text-plum-900">
-                {language === 'bn' ? 'মানসিক স্বাস্থ্য ও আবেগ' : 'Mental Health & Emotional Wellbeing'}
+              <h4 className="font-bold text-sm sm:text-base text-plum-900 truncate">
+                {language === 'bn' ? 'মানসিক স্বাস্থ্য ও আবেগ' : 'Mental Health & Mood'}
               </h4>
               <p className="text-xs text-plum-600 line-clamp-1">
-                {language === 'bn' ? 'দৈনিক মেজাজ ডায়েরি, রিল্যাক্সিং ব্রিদিং ও মন-শরীরের সংযোগ' : 'Daily mood scale, box breathing exercises & cycle correlation'}
+                {language === 'bn' ? 'দৈনিক মেজাজ ডায়েরি ও ব্রিদিং' : 'Daily mood scale & breathing'}
               </p>
             </div>
           </div>
-          <ChevronRight className="w-5 h-5 text-lavender-600 shrink-0 ml-3" />
+          <ChevronRight className="w-4 h-4 text-lavender-600 shrink-0 ml-2" />
+        </div>
+
+        {/* Module 3: Partner Sharing & Support */}
+        <div 
+          onClick={() => setCurrentPage('partner_view')}
+          className="bg-gradient-to-br from-peach-50/80 to-rose-50/60 rounded-3xl p-5 border border-peach-200/70 hover:shadow-soft transition-all cursor-pointer flex items-center justify-between group"
+        >
+          <div className="flex items-center gap-3.5 min-w-0">
+            <div className="w-12 h-12 rounded-2xl bg-white p-2 shadow-xs border border-peach-100 flex items-center justify-center shrink-0 text-rose-500">
+              <Heart className="w-6 h-6 fill-rose-500/20 text-rose-500 group-hover:scale-110 transition-transform" />
+            </div>
+            <div className="space-y-0.5 min-w-0">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-rose-700 block">
+                {language === 'bn' ? 'মডিউল ৩' : 'Module 3'}
+              </span>
+              <h4 className="font-bold text-sm sm:text-base text-plum-900 truncate">
+                {language === 'bn' ? 'সঙ্গী কেয়ার কম্প্যানিয়ন' : 'Partner Companion'}
+              </h4>
+              <p className="text-xs text-plum-600 line-clamp-1">
+                {language === 'bn' ? 'রিড-অনলি সাইকেল ও কেয়ার টিপস' : 'Read-only cycle & care tips'}
+              </p>
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-rose-500 shrink-0 ml-2" />
         </div>
       </div>
 

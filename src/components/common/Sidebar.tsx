@@ -64,6 +64,18 @@ export const Sidebar: React.FC = () => {
       ],
     },
     {
+      title: language === 'bn' ? 'মডিউল ৩: সঙ্গী শেয়ারিং' : 'Module 3: Partner Sharing',
+      items: [
+        { 
+          id: 'partner_view', 
+          label: language === 'bn' ? 'সঙ্গী কম্প্যানিয়ন' : 'Partner Companion', 
+          icon: Heart,
+          badge: language === 'bn' ? 'মডিউল ৩' : 'Share',
+          badgeColor: 'bg-rose-100 text-rose-800 border-rose-200'
+        },
+      ],
+    },
+    {
       title: language === 'bn' ? 'টুলস ও অ্যাকাউন্ট' : 'Tools & Account',
       items: [
         { id: 'aiAssistant', label: t.nav.aiAssistant, icon: Bot, isSpecial: true },
