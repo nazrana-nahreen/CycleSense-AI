@@ -12,7 +12,6 @@ import {
   Settings, 
   ChevronLeft, 
   ChevronRight, 
-  Sparkles,
   Heart,
   Brain
 } from 'lucide-react';
@@ -171,21 +170,6 @@ export const Sidebar: React.FC = () => {
           </div>
         ))}
       </nav>
-
-      {/* Portfolio Capstone Footer Badge */}
-      {!collapsed && (
-        <div className="p-4 m-3 bg-gradient-to-br from-peach-100/60 to-lavender-100/60 rounded-2xl border border-rose-100/80 text-xs text-plum-700">
-          <div className="flex items-center gap-1.5 font-semibold text-rose-800 mb-1">
-            <Sparkles className="w-3.5 h-3.5 text-rose-500" />
-            <span>AI & ML Capstone</span>
-          </div>
-          <p className="text-[11px] text-plum-500 leading-relaxed">
-            {language === 'bn' 
-              ? 'নিরাপদ স্থানীয় স্বাস্থ্য বিশ্লেষণ ও দ্বিভাষিক সহায়তা'
-              : 'Empowering women with verified cycle science & dual-language NLP.'}
-          </p>
-        </div>
-      )}
     </aside>
   );
 };
