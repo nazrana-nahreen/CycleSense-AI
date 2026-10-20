@@ -162,16 +162,22 @@ export const DashboardPage: React.FC = () => {
           <Card className="bg-gradient-to-br from-rose-50/70 via-surface to-peach-50/50 border-rose-200/70">
             <div className="flex items-start justify-between">
               <div>
-                <span className="text-xs font-semibold text-plum-500 uppercase tracking-wider block">
-                  {t.dashboard.nextPeriodEst}
-                </span>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-semibold text-plum-500 uppercase tracking-wider block">
+                    {t.dashboard.nextPeriodEst}
+                  </span>
+                  <Badge variant="rose" size="sm">
+                    {prediction.mlConfidencePercentage ? `${prediction.mlConfidencePercentage}% ML Confidence` : 'Trained ML Model'}
+                  </Badge>
+                </div>
                 <span className={`text-2xl sm:text-3xl font-extrabold text-plum-900 mt-1 block ${user.privacyMode ? 'blur-sm' : ''}`}>
-                  Oct 30 – Nov 2
+                  {new Date(prediction.nextPeriodStart).toLocaleDateString(language === 'bn' ? 'bn-BD' : 'en-US', { month: 'short', day: 'numeric' })}
+                  {' – '}
+                  {new Date(prediction.nextPeriodEnd).toLocaleDateString(language === 'bn' ? 'bn-BD' : 'en-US', { month: 'short', day: 'numeric' })}
                 </span>
                 <div className="flex items-center gap-1.5 text-xs text-rose-700 font-medium mt-1">
                   <Clock className="w-3.5 h-3.5" />
-                  <span>~10 {language === 'bn' ? 'দিন বাকি' : 'days away'}</span>
-                  <span className="text-[11px] text-plum-400">({t.dashboard.uncertainty})</span>
+                  <span>±{prediction.uncertaintyDays} {language === 'bn' ? 'দিন অনির্দিষ্টতা উইন্ডো' : 'days uncertainty window'}</span>
                 </div>
               </div>
               <div className="p-3 rounded-2xl bg-rose-500 text-white shadow-sm">

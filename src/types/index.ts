@@ -166,4 +166,14 @@ export interface CyclePrediction {
   ovulationEstimatedDate: string;
   ovulationWindowStart: string;
   ovulationWindowEnd: string;
+  // ML Engineering Telemetry
+  mlModelName?: string;
+  mlConfidencePercentage?: number;
+  mlDatasetReference?: string;
+  mlFeatureContributions?: {
+    baselineCadence: number;
+    ageFactor: number;
+    bmiFactor: number;
+    mensesFactor: number;
+  };
 }

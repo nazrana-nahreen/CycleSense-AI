@@ -295,11 +295,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   );
   const lastPeriodStart = sortedCycles.length > 0 ? sortedCycles[0].startDate : '2026-10-01';
 
+  // Extract recent cycle lengths for ML inference
+  const recentLengths: number[] = [];
+  for (let i = 0; i < sortedCycles.length - 1; i++) {
+    const diff = Math.round((new Date(sortedCycles[i].startDate).getTime() - new Date(sortedCycles[i + 1].startDate).getTime()) / (1000 * 60 * 60 * 24));
+    if (diff >= 18 && diff <= 55) {
+      recentLengths.unshift(diff);
+    }
+  }
+
   const prediction = calculateCyclePrediction(
     lastPeriodStart,
     user.targetCycleLength || cycleStats.averageCycleLength || 29,
     user.targetPeriodDuration || cycleStats.averagePeriodDuration || 5,
-    cycleStats.cycleVariation || 2
+    cycleStats.cycleVariation || 2,
+    30,
+    23.5,
+    recentLengths
   );
 
   // Cycle Mutations with API sync

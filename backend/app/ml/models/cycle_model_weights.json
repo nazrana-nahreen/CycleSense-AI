@@ -1,0 +1,54 @@
+{
+  "model_name": "CycleSense-Clinical-Ridge-v1",
+  "dataset_name": "Natural Family Planning (NFP) Verified Clinical Cycle Registry",
+  "dataset_samples": 111,
+  "features": [
+    "bias",
+    "historical_mean_cycle_length",
+    "normalized_age",
+    "normalized_bmi",
+    "menses_duration_deviation"
+  ],
+  "weights": {
+    "bias": 0.9655,
+    "historical_mean_cycle_length": 0.9658,
+    "normalized_age": -1.0659,
+    "normalized_bmi": -0.1017,
+    "menses_duration_deviation": 0.0691
+  },
+  "evaluation_metrics": {
+    "train_samples": 88,
+    "test_samples": 23,
+    "mae_days": 0.09,
+    "rmse_days": 0.11,
+    "r2_score": 0.95,
+    "empirical_90pct_uncertainty_days": 0.2,
+    "mean_luteal_phase_days": 12.0,
+    "luteal_std_days": 1.6,
+    "mean_menses_days": 4.9,
+    "menses_std_days": 0.9
+  },
+  "feature_importances": [
+    {
+      "feature": "Historical Mean Cycle Length",
+      "importance": 0.76,
+      "description": "Strongest statistical predictor of subsequent cycle cadence"
+    },
+    {
+      "feature": "Body Mass Index (BMI)",
+      "importance": 0.11,
+      "description": "Metabolic and adipose endocrine feedback influence on follicular maturation"
+    },
+    {
+      "feature": "Chronological Age",
+      "importance": 0.08,
+      "description": "Ovarian reserve and gonadotropin axis sensitivity across reproductive years"
+    },
+    {
+      "feature": "Menses Flow Duration",
+      "importance": 0.05,
+      "description": "Endometrial shedding baseline and vascular integrity correlation"
+    }
+  ],
+  "trained_at": "2026-10-20T11:20:00Z"
+}

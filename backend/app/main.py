@@ -17,6 +17,7 @@ from app.routers import (
     articles_router,
     reports_router,
 )
+from app.routers.ml_prediction import router as ml_router
 
 # Configure logging without leaking sensitive health payload data
 logging.basicConfig(
@@ -104,6 +105,7 @@ app.include_router(periods_router)
 app.include_router(symptoms_router)
 app.include_router(articles_router)
 app.include_router(reports_router)
+app.include_router(ml_router)
 
 
 @app.get("/", tags=["Health"])

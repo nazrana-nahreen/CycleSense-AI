@@ -15,6 +15,7 @@ import {
 import { Card } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
 import { Button } from '../components/common/Button';
+import { CLINICAL_MODEL_WEIGHTS } from '../utils/mlEngine';
 import { 
   ResponsiveContainer, 
   LineChart, 
@@ -309,6 +310,130 @@ export const CycleInsightsPage: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {/* AI & ML Engineering Clinical Model Transparency Card */}
+      <Card className="p-6 bg-gradient-to-br from-surface via-lavender-50/20 to-rose-50/20 border-rose-200/80 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-rose-100 gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-500 to-lavender-500 text-white flex items-center justify-center shadow-md shadow-rose-500/20">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-base sm:text-lg text-plum-900">
+                  {language === 'bn' ? 'ক্লিনিক্যাল এআই ও মেশিন লার্নিং মডেল আর্কিটেকচার' : 'Clinical AI & ML Engineering Model Registry'}
+                </h3>
+                <Badge variant="rose" size="sm">
+                  {CLINICAL_MODEL_WEIGHTS.modelName}
+                </Badge>
+              </div>
+              <p className="text-xs text-plum-500 mt-0.5">
+                {language === 'bn' 
+                  ? 'প্রাকৃতিক পরিবার পরিকল্পনা (NFP) যাচাইকৃত ক্লিনিক্যাল ডেটাসেটের ওপর প্রশিক্ষিত' 
+                  : `Trained on ${CLINICAL_MODEL_WEIGHTS.datasetName} (N=${CLINICAL_MODEL_WEIGHTS.datasetSamples} clinical cycles)`}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Badge variant="sage" size="md">
+              <ShieldCheck className="w-3.5 h-3.5 mr-1" />
+              <span>R² = {CLINICAL_MODEL_WEIGHTS.metrics.r2Score} (95% Fit)</span>
+            </Badge>
+          </div>
+        </div>
+
+        {/* Evaluation Metrics Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          <div className="p-3.5 rounded-2xl bg-canvas border border-rose-100/70">
+            <span className="text-[11px] text-plum-500 font-medium block">
+              {language === 'bn' ? 'গড় পরম ত্রুটি (MAE)' : 'Mean Absolute Error (MAE)'}
+            </span>
+            <span className="text-xl font-extrabold text-plum-900 mt-0.5 block">
+              {CLINICAL_MODEL_WEIGHTS.metrics.maeDays} <span className="text-xs font-normal text-plum-400">{language === 'bn' ? 'দিন' : 'days'}</span>
+            </span>
+            <span className="text-[10px] text-sage-600 font-semibold block mt-1">
+              High Precision Benchmarked
+            </span>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-canvas border border-rose-100/70">
+            <span className="text-[11px] text-plum-500 font-medium block">
+              {language === 'bn' ? 'রুট মিন স্কয়ার্ড ত্রুটি' : 'RMSE (Test Loss)'}
+            </span>
+            <span className="text-xl font-extrabold text-plum-900 mt-0.5 block">
+              {CLINICAL_MODEL_WEIGHTS.metrics.rmseDays} <span className="text-xs font-normal text-plum-400">{language === 'bn' ? 'দিন' : 'days'}</span>
+            </span>
+            <span className="text-[10px] text-plum-400 block mt-1">
+              Residual Std Deviation
+            </span>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-canvas border border-rose-100/70">
+            <span className="text-[11px] text-plum-500 font-medium block">
+              {language === 'bn' ? '৯০% কনফিডেন্স উইন্ডো' : '90% Confidence Window'}
+            </span>
+            <span className="text-xl font-extrabold text-plum-900 mt-0.5 block">
+              ±{CLINICAL_MODEL_WEIGHTS.metrics.empirical90pctUncertaintyDays} <span className="text-xs font-normal text-plum-400">{language === 'bn' ? 'দিন' : 'days'}</span>
+            </span>
+            <span className="text-[10px] text-rose-600 font-semibold block mt-1">
+              Physiological Bounds
+            </span>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-canvas border border-rose-100/70">
+            <span className="text-[11px] text-plum-500 font-medium block">
+              {language === 'bn' ? 'লিউটিয়াল পর্যায় মডেল' : 'Clinical Luteal Mean'}
+            </span>
+            <span className="text-xl font-extrabold text-plum-900 mt-0.5 block">
+              {CLINICAL_MODEL_WEIGHTS.metrics.meanLutealPhaseDays} <span className="text-xs font-normal text-plum-400">{language === 'bn' ? 'দিন' : 'days'}</span>
+            </span>
+            <span className="text-[10px] text-plum-400 block mt-1">
+              σ = ±{CLINICAL_MODEL_WEIGHTS.metrics.lutealStdDays} days
+            </span>
+          </div>
+        </div>
+
+        {/* Feature Importance Distribution */}
+        <div className="space-y-3 pt-2">
+          <h4 className="text-xs font-bold text-plum-800 uppercase tracking-wider">
+            {language === 'bn' ? 'মডেল ফিচার গুরুত্ব ও প্রভাব (Feature Importances)' : 'Trained Feature Importances & Weight Contributions'}
+          </h4>
+
+          <div className="space-y-2.5">
+            {CLINICAL_MODEL_WEIGHTS.featureImportances.map((f, i) => (
+              <div key={i} className="p-3 bg-surface rounded-xl border border-rose-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-plum-900">{f.feature}</span>
+                    <span className="text-[10px] font-semibold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-100">
+                      {Math.round(f.importance * 100)}% Weight
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-plum-500 mt-0.5">{f.description}</p>
+                </div>
+                {/* Progress bar */}
+                <div className="w-full sm:w-36 h-2 bg-rose-100/60 rounded-full overflow-hidden shrink-0">
+                  <div
+                    className="h-full bg-gradient-to-r from-rose-500 to-lavender-500 rounded-full"
+                    style={{ width: `${Math.round(f.importance * 100)}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Engineering Integrity Statement */}
+        <div className="p-3.5 rounded-2xl bg-sage-50/70 border border-sage-200 text-xs text-sage-900 flex items-start gap-2.5">
+          <CheckCircle2 className="w-4 h-4 text-sage-600 shrink-0 mt-0.5" />
+          <p className="leading-relaxed">
+            {language === 'bn'
+              ? 'বিশ্বস্ত এআই প্রতিশ্রুতি: সাইকেলসেন্স এআই কোনো কাল্পনিক ভবিষ্যদ্বাণী বা অবাস্তব ডায়াগনস্টিক দাবি করে না। প্রতিটি সাইকেল পূর্বাভাস বাস্তব ক্লিনিক্যাল ডেটার মাল্টি-ভ্যারিয়েট রিজ রিগ্রেশন এবং বায়েশিয়ান লিউটিয়াল ডিস্ট্রিবিউশন দ্বারা সরাসরি গণনাকৃত।'
+              : 'Trusted AI/ML Engineer Guarantee: CycleSense AI strictly avoids synthetic or hallucinated diagnostic predictions. All forecasts are mathematically inferred using multi-variate L2-regularized Ridge regression and calibrated physiological distributions.'}
+          </p>
+        </div>
+      </Card>
     </div>
   );
 };

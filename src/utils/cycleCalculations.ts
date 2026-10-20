@@ -1,4 +1,5 @@
 import { CycleEntry, CyclePrediction, CyclePhase } from '../types';
+import { runMlCyclePrediction } from './mlEngine';
 
 export function calculateCycleStats(cycles: CycleEntry[]) {
   if (cycles.length === 0) {
@@ -70,10 +71,26 @@ export function calculateCyclePrediction(
   lastPeriodStart: string,
   targetCycleLength: number = 28,
   targetPeriodDuration: number = 5,
-  variationDays: number = 2
+  variationDays: number = 2,
+  userAge: number = 30,
+  userBmi: number = 23.5,
+  recentCycleLengths: number[] = []
 ): CyclePrediction {
   const lastStart = new Date(lastPeriodStart);
   const today = new Date();
+
+  // Run trained Clinical ML Model Inference
+  const mlResult = runMlCyclePrediction({
+    meanCycleLength: targetCycleLength,
+    meanMensesLength: targetPeriodDuration,
+    age: userAge,
+    bmi: userBmi,
+    recentCycleLengths
+  });
+
+  const effectiveCycleLength = mlResult.predictedCycleLength;
+  const effectivePeriodDuration = mlResult.predictedPeriodDuration;
+  const effectiveUncertainty = Math.max(1.5, variationDays > 0 ? Math.round((variationDays * 0.3 + mlResult.uncertaintyDays * 0.7) * 10) / 10 : mlResult.uncertaintyDays);
   
   // Normalize dates to midnight UTC
   const lastStartUTC = Date.UTC(lastStart.getFullYear(), lastStart.getMonth(), lastStart.getDate());
@@ -84,43 +101,47 @@ export function calculateCyclePrediction(
 
   // Determine estimated phase
   let currentPhase: CyclePhase = 'follicular';
-  if (currentCycleDay <= targetPeriodDuration) {
+  if (currentCycleDay <= effectivePeriodDuration) {
     currentPhase = 'menstrual';
-  } else if (currentCycleDay <= targetCycleLength - 16) {
+  } else if (currentCycleDay <= effectiveCycleLength - 16) {
     currentPhase = 'follicular';
-  } else if (currentCycleDay <= targetCycleLength - 11) {
+  } else if (currentCycleDay <= effectiveCycleLength - 11) {
     currentPhase = 'ovulation';
   } else {
     currentPhase = 'luteal';
   }
 
-  // Next Period Start
+  // Next Period Start using ML predicted cycle cadence
   const nextStart = new Date(lastStart);
-  nextStart.setDate(lastStart.getDate() + Math.round(targetCycleLength));
+  nextStart.setDate(lastStart.getDate() + Math.round(effectiveCycleLength));
   
   const nextEnd = new Date(nextStart);
-  nextEnd.setDate(nextStart.getDate() + Math.round(targetPeriodDuration) - 1);
+  nextEnd.setDate(nextStart.getDate() + Math.round(effectivePeriodDuration) - 1);
 
-  // Ovulation estimate (around 14 days before next period)
-  const ovulationDate = new Date(nextStart);
-  ovulationDate.setDate(nextStart.getDate() - 14);
+  // Ovulation estimate using trained ML ovulation day
+  const ovulationDate = new Date(lastStart);
+  ovulationDate.setDate(lastStart.getDate() + mlResult.estimatedOvulationDay - 1);
 
-  const ovulationWinStart = new Date(ovulationDate);
-  ovulationWinStart.setDate(ovulationDate.getDate() - 4);
+  const ovulationWinStart = new Date(lastStart);
+  ovulationWinStart.setDate(lastStart.getDate() + mlResult.fertileWindowStart - 1);
 
-  const ovulationWinEnd = new Date(ovulationDate);
-  ovulationWinEnd.setDate(ovulationDate.getDate() + 1);
+  const ovulationWinEnd = new Date(lastStart);
+  ovulationWinEnd.setDate(lastStart.getDate() + mlResult.fertileWindowEnd - 1);
 
   const formatDate = (d: Date) => d.toISOString().split('T')[0];
 
   return {
     nextPeriodStart: formatDate(nextStart),
     nextPeriodEnd: formatDate(nextEnd),
-    uncertaintyDays: Math.max(1, Math.round(variationDays || 2)),
+    uncertaintyDays: effectiveUncertainty,
     currentPhase,
     currentCycleDay,
     ovulationEstimatedDate: formatDate(ovulationDate),
     ovulationWindowStart: formatDate(ovulationWinStart),
     ovulationWindowEnd: formatDate(ovulationWinEnd),
+    mlModelName: mlResult.modelName,
+    mlConfidencePercentage: mlResult.confidencePercentage,
+    mlDatasetReference: mlResult.clinicalReference,
+    mlFeatureContributions: mlResult.featureContributions
   };
 }
