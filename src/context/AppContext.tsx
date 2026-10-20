@@ -157,7 +157,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsLoggedIn(false);
     setCurrentPage('landing');
   };
-  const [selectedDate, setSelectedDate] = useState<string>('2026-10-19');
+
+  const getTodayStr = () => {
+    const now = new Date();
+    return `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+  };
+
+  const [selectedDate, setSelectedDate] = useState<string>(getTodayStr);
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
   const [isChatDrawerOpen, setIsChatDrawerOpen] = useState<boolean>(false);
   const [isAddPeriodModalOpen, setIsAddPeriodModalOpen] = useState<boolean>(false);

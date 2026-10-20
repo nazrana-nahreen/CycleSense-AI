@@ -39,7 +39,12 @@ export const SymptomTrackerPage: React.FC = () => {
     t 
   } = useApp();
 
-  const [date, setDate] = useState(selectedDate || '2026-10-19');
+  const getTodayStr = () => {
+    const now = new Date();
+    return `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+  };
+
+  const [date, setDate] = useState(selectedDate || getTodayStr());
   const [crampsPain, setCrampsPain] = useState<number>(1);
   const [flow, setFlow] = useState<FlowIntensity>('none');
   const [mood, setMood] = useState<MoodType>('calm');

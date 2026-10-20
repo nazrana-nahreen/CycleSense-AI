@@ -115,16 +115,27 @@ export const DashboardPage: React.FC = () => {
       {/* Hero Welcome Card */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface rounded-3xl p-4 sm:p-6 border border-rose-100 shadow-soft">
         <div>
-          <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-rose-500">
-            {language === 'bn' ? 'ব্যক্তিগত ড্যাশবোর্ড' : 'Personal Health Overview'}
-          </span>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-plum-900 tracking-tight mt-0.5">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-rose-500">
+              {language === 'bn' ? 'ব্যক্তিগত ড্যাশবোর্ড' : 'Personal Health Overview'}
+            </span>
+            <span className="text-plum-300 hidden xs:inline">•</span>
+            <span className="text-[11px] sm:text-xs font-semibold text-plum-600 bg-rose-50/70 px-2 py-0.5 rounded-lg border border-rose-100">
+              {new Date().toLocaleDateString(language === 'bn' ? 'bn-BD' : 'en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+              })}
+            </span>
+          </div>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-plum-900 tracking-tight mt-1">
             {t.dashboard.welcome}, {user.name.split(' ')[0]} 👋
           </h2>
           <p className="text-xs sm:text-sm text-plum-500 mt-1">
             {language === 'bn' 
-              ? 'আজ আপনার বর্তমান সাইকেলের ১৯তম দিন। সমস্ত শারীরিক লক্ষণ পর্যবেক্ষণে রয়েছে।'
-              : "You're on Day 19 of your estimated ~29-day cycle. Here is your synthesized wellness summary."}
+              ? `আজ আপনার বর্তমান সাইকেলের ${prediction.currentCycleDay}তম দিন। সমস্ত শারীরিক লক্ষণ পর্যবেক্ষণে রয়েছে।`
+              : `You're on Day ${prediction.currentCycleDay} of your estimated ~${user.targetCycleLength || 29}-day cycle. Here is your synthesized wellness summary.`}
           </p>
         </div>
 

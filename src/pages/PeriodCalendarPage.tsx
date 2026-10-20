@@ -36,9 +36,10 @@ export const PeriodCalendarPage: React.FC = () => {
     t 
   } = useApp();
 
-  // Current viewing month (starts at October 2026)
-  const [currentYear, setCurrentYear] = useState(2026);
-  const [currentMonth, setCurrentMonth] = useState(9); // 0-indexed: 9 = October
+  // Current viewing month (starts at live dynamic current month)
+  const now = new Date();
+  const [currentYear, setCurrentYear] = useState(() => now.getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(() => now.getMonth());
 
   const monthNamesEn = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -101,8 +102,8 @@ export const PeriodCalendarPage: React.FC = () => {
     return dateStr >= prediction.ovulationWindowStart && dateStr <= prediction.ovulationWindowEnd;
   };
 
-  // Today marker (2026-10-19)
-  const todayStr = '2026-10-19';
+  // Live dynamic today marker (YYYY-MM-DD)
+  const todayStr = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
 
   // Details for currently selected date
   const selectedCycle = getCycleForDay(selectedDate);

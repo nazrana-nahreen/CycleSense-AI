@@ -35,10 +35,26 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 
   const [showNotifMenu, setShowNotifMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [currentDate, setCurrentDate] = useState(() => new Date());
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
   const unreadCount = notifications.filter(n => !n.isRead).length;
+
+  // Real-time dynamic date updater (syncs daily automatically)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 60000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formattedToday = currentDate.toLocaleDateString(language === 'bn' ? 'bn-BD' : 'en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
 
   // Close menus on outside click
   useEffect(() => {
@@ -61,13 +77,8 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
         <h1 className="text-sm xs:text-base sm:text-xl md:text-2xl font-bold text-plum-900 tracking-tight truncate flex items-center gap-1.5 sm:gap-2">
           {title}
         </h1>
-        <p className="text-xs text-plum-500 hidden sm:block">
-          {new Date('2026-10-19').toLocaleDateString(language === 'bn' ? 'bn-BD' : 'en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
+        <p className="text-[10px] xs:text-[11px] sm:text-xs text-plum-500 truncate block">
+          {formattedToday}
         </p>
       </div>
 
